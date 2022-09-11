@@ -1,7 +1,7 @@
 package com.example.spring_team4_be.jwt;
 
 
-import com.example.spring_team4_be.dto.ResponseDto;
+import com.example.spring_team4_be.dto.reponse.ResponseDto;
 import com.example.spring_team4_be.service.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
