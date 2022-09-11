@@ -1,10 +1,12 @@
 package com.example.spring_team4_be.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
@@ -13,7 +15,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MemberResponseDto {
     private Long id;
+    private String username;
     private String nickname;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MMMM d, yyyy", timezone = "Asia/Seoul",  locale = "en")
+    private LocalDate dateofbirth;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MMMM yyyy", timezone = "Asia/Seoul",  locale = "en")
     private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+
 }

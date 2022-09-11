@@ -2,10 +2,11 @@ package com.example.spring_team4_be.service;
 
 
 import com.example.spring_team4_be.dto.*;
-import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.entity.Member;
+import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
+
+    @SneakyThrows
     @Transactional
     public ResponseDto<?> createMember(MemberReqDto requestDto) {
         if (null != isPresentMember(requestDto.getUsername())) {
@@ -32,17 +35,23 @@ public class MemberService {
         }
 
 
+//        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd", Locale.ENGLISH);
+//        LocalDate lDate = LocalDate.parse("19980320", format);
+
         Member member = Member.builder()
                 .username(requestDto.getUsername())
+                .nickname(requestDto.getNickname())
                 .password(passwordEncoder.encode(requestDto.getPassword()))
+                .dateofbirth(requestDto.getDateofbirth())
                 .build();
         memberRepository.save(member);
         return ResponseDto.success(
                 MemberResponseDto.builder()
                         .id(member.getId())
-                        .nickname(member.getUsername())
+                        .username(member.getUsername())
+                        .nickname(member.getNickname())
+                        .dateofbirth(member.getDateofbirth())
                         .createdAt(member.getCreatedAt())
-                        .modifiedAt(member.getModifiedAt())
                         .build()
         );
     }
@@ -68,7 +77,6 @@ public class MemberService {
                         .id(member.getId())
                         .nickname(member.getUsername())
                         .createdAt(member.getCreatedAt())
-                        .modifiedAt(member.getModifiedAt())
                         .build()
         );
     }

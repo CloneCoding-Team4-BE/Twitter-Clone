@@ -3,11 +3,15 @@ package com.example.spring_team4_be.entity;
 import com.example.spring_team4_be.dto.MemberReqDto;
 import com.example.spring_team4_be.util.Timestamped;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,6 +40,9 @@ public class Member extends Timestamped {
     private String bio;
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private LocalDate dateofbirth;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "member", cascade = CascadeType.ALL)
     @JsonIgnore
