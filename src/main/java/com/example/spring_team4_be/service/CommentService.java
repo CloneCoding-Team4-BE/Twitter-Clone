@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,6 +20,8 @@ import java.util.Optional;
 public class CommentService {
     private final TwitRepository twitRepository;
     private final ReTwitService reTwitService;
+    private final TwitService twitService;
+    private final HeartService heartService;
     @Transactional
     public ResponseDto<?> create(Long twit_id, TwitRequestDto requestDto, HttpServletRequest request){
         Member member = reTwitService.validateMember(request);
@@ -28,7 +29,7 @@ public class CommentService {
         if(member == null)
             return ResponseDto.fail("INVALID_TOKEN", "토큰이 유효하지 않습니다.");
 
-        if(isPresentTwit(twit_id) == null) {
+        if(twitService.isPresentTwit(twit_id) == null) {
             return ResponseDto.fail("NOT_FOUNT_TWIT", "트윗을 찾을 수 없습니다.");
         }
         Twit twit = Twit.builder()
@@ -49,13 +50,11 @@ public class CommentService {
                         .content(twit.getContent())
                         .fileUrl(twit.getUrl())
                         .createdAt(twit.getCreatedAt())
+                        .commentCnt(heartService.commentcnt(twit.getId()))
+                        .likeCnt(heartService.commentcnt(twit.getId()))
                         .build()
         );
     }
 
-    @Transactional(readOnly = true)
-    public Twit isPresentTwit(Long id) {
-        Optional<Twit> optionalBook_review = twitRepository.findById(id);
-        return optionalBook_review.orElse(null);
-    }
+
 }
