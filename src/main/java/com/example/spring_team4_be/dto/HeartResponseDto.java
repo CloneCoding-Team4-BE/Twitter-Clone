@@ -1,5 +1,6 @@
 package com.example.spring_team4_be.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,5 +16,6 @@ public class HeartResponseDto {
     private String fileUrl;
     private int commentCnt;
     private int likeCnt;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MMM d", timezone = "Asia/Seoul",  locale = "en")
     private LocalDateTime createdAt;
 }

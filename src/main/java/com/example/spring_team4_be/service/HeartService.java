@@ -72,7 +72,7 @@ public class HeartService {
     }
 
     @Transactional
-    public ResponseDto<?> getliketwit(HttpServletRequest request){
+    public ResponseDto<?> getLikeTwit(HttpServletRequest request){
         Member member = validateMember(request);
 
         if(request.getHeader("Authorization") == null)
@@ -93,6 +93,7 @@ public class HeartService {
                     .content(heart.getTwit().getContent())
                     .fileUrl(heart.getTwit().getUrl())
                     .commentCnt(commentcnt(heart.getTwit().getId()))
+                    .createdAt(heart.getTwit().getCreatedAt())
                     .likeCnt(heartcnt(heart.getTwit().getId()))
                     .build()
             );
