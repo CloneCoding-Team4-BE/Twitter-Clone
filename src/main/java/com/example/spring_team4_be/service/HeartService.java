@@ -33,6 +33,8 @@ public class HeartService {
         return heartRepository.countAllByTwitId(id);
     }
 
+    @Transactional
+    public int commentcnt(Long twit_id){return twitRepository.countAllByReTwit(twit_id);}
 
     @Transactional
     public ResponseDto<?> likeAndUnlike(HttpServletRequest request,Long twit_id) {
@@ -90,6 +92,7 @@ public class HeartService {
                     .userId(member.getUsername())
                     .content(heart.getTwit().getContent())
                     .fileUrl(heart.getTwit().getUrl())
+                    .commentCnt(commentcnt(heart.getTwit().getId()))
                     .likeCnt(heartcnt(heart.getTwit().getId()))
                     .build()
             );
