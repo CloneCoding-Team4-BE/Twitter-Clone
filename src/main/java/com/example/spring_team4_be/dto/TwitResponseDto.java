@@ -17,5 +17,7 @@ public class TwitResponseDto {
     private LocalDateTime createdAt;
     private String content;
     private String fileUrl;
+    private int commentCnt;
+    private int likeCnt;
 
 }

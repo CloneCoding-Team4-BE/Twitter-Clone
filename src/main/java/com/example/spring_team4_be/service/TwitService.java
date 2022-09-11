@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -20,6 +23,36 @@ import javax.servlet.http.HttpServletRequest;
 public class TwitService {
     private final TwitRepository twitRepository;
     private final TokenProvider tokenProvider;
+    private final HeartService heartService;
+
+    @Transactional
+    public ResponseDto<?> allTwit() {
+
+        List<Twit> twitList = twitRepository.findAllByOrderByCreatedAtDesc();
+
+        List<TwitResponseDto> twits = new ArrayList<>();
+
+        for(Twit twit : twitList){
+            twits.add(
+                    TwitResponseDto.builder()
+                            .id(twit.getId())
+                            .userFrofileImage(twit.getMember().getImageUrl())
+                            .nickname(twit.getMember().getNickname())
+                            .userId(twit.getMember().getUsername())
+                            .content(twit.getContent())
+                            .fileUrl(twit.getUrl())
+                            .createdAt(twit.getCreatedAt())
+                            .commentCnt(heartService.commentcnt(twit.getId()))
+                            .likeCnt(heartService.commentcnt(twit.getId()))
+                            .build()
+            );
+        }
+
+
+
+        return ResponseDto.success(twits);
+    }
+
 
     @Transactional
     public ResponseDto<?> twitCreate(TwitRequestDto requestDto, HttpServletRequest request) {
@@ -48,8 +81,30 @@ public class TwitService {
                         .content(twit.getContent())
                         .fileUrl(twit.getUrl())
                         .createdAt(twit.getCreatedAt())
+                        .commentCnt(heartService.commentcnt(twit.getId()))
+                        .likeCnt(heartService.commentcnt(twit.getId()))
                         .build()
         );
+    }
+
+    @Transactional
+    public ResponseDto<?> twitDelete(Long twit_id, HttpServletRequest request) {
+        Member member = validateMember(request);
+        if (null == member) {
+            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
+        }
+
+        Twit twit = isPresentTwit(twit_id);
+        if(twit == null)
+            return ResponseDto.fail("NOT_FOUND_REVIEW", "리뷰가 존재하지 않습니다.");
+
+        if(twit.validateMember(member)) {
+            return ResponseDto.fail("BAD_REQUEST","작성자만 삭제할 수 있습니다.");
+        }
+
+        twitRepository.deleteById(twit_id);
+        return ResponseDto.success("");
+
     }
 
     @Transactional
@@ -58,6 +113,12 @@ public class TwitService {
             return null;
         }
         return tokenProvider.getMemberFromAuthentication();
+    }
+
+    @Transactional(readOnly = true)
+    public Twit isPresentTwit(Long id) {
+        Optional<Twit> optionalBook_review = twitRepository.findById(id);
+        return optionalBook_review.orElse(null);
     }
 
 

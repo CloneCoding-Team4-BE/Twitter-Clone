@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TwitRepository extends JpaRepository<Twit,Long> {
-    List<Twit> findAllByReTwit(Long Twit_id);
+    List<Twit> findAllByOrderByCreatedAtDesc();
 
     int countAllByReTwit(Long Twit_id);
 }
