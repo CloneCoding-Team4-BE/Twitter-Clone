@@ -1,4 +1,4 @@
-package com.example.spring_team4_be.dto;
+package com.example.spring_team4_be.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,12 +10,11 @@ import java.time.LocalDate;
 @Setter
 public class MemberReqDto {
     @NotBlank
-    private String username;
+    private String userId;
     @NotBlank
     private String nickname;
     @NotBlank
     private String password;
-//    @NotBlank
-
-    private LocalDate dateofbirth;
+    private LocalDate dateOfBirth;
 }
+

@@ -2,11 +2,14 @@ package com.example.spring_team4_be.service;
 
 
 import com.example.spring_team4_be.dto.*;
-import com.example.spring_team4_be.entity.Member;
+import com.example.spring_team4_be.dto.request.LoginReqDto;
+import com.example.spring_team4_be.dto.request.MemberReqDto;
+import com.example.spring_team4_be.dto.response.MemberResponseDto;
+import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.jwt.TokenProvider;
+import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,32 +28,27 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
-
-    @SneakyThrows
     @Transactional
     public ResponseDto<?> createMember(MemberReqDto requestDto) {
-        if (null != isPresentMember(requestDto.getUsername())) {
+        if (null != isPresentMember(requestDto.getUserId())) {
             return ResponseDto.fail("DUPLICATED_NICKNAME",
-                    "중복된 닉네임 입니다.");
+                    "중복된 아이디입니다.");
         }
 
 
-//        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd", Locale.ENGLISH);
-//        LocalDate lDate = LocalDate.parse("19980320", format);
-
         Member member = Member.builder()
-                .username(requestDto.getUsername())
+                .userId(requestDto.getUserId())
                 .nickname(requestDto.getNickname())
                 .password(passwordEncoder.encode(requestDto.getPassword()))
-                .dateofbirth(requestDto.getDateofbirth())
+                .dateOfBirth(requestDto.getDateOfBirth())
                 .build();
         memberRepository.save(member);
         return ResponseDto.success(
                 MemberResponseDto.builder()
                         .id(member.getId())
-                        .username(member.getUsername())
+                        .userId(member.getUserId())
                         .nickname(member.getNickname())
-                        .dateofbirth(member.getDateofbirth())
+                        .dateOfBirth(member.getDateOfBirth())
                         .createdAt(member.getCreatedAt())
                         .build()
         );
@@ -58,7 +56,7 @@ public class MemberService {
 
     @Transactional
     public ResponseDto<?> login(@Valid LoginReqDto requestDto, HttpServletResponse response) {
-        Member member = isPresentMember(requestDto.getUsername());
+        Member member = isPresentMember(requestDto.getUserId());
         if (null == member) {
             return ResponseDto.fail("MEMBER_NOT_FOUND",
                     "사용자를 찾을 수 없습니다.");
@@ -75,7 +73,9 @@ public class MemberService {
         return ResponseDto.success(
                 MemberResponseDto.builder()
                         .id(member.getId())
-                        .nickname(member.getUsername())
+                        .userId(member.getUserId())
+                        .nickname(member.getUserId())
+                        .dateOfBirth(member.getDateOfBirth())
                         .createdAt(member.getCreatedAt())
                         .build()
         );
@@ -119,8 +119,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member isPresentMember(String username) {
-        Optional<Member> optionalMember = memberRepository.findByUsername(username);
+    public Member isPresentMember(String userId) {
+        Optional<Member> optionalMember = memberRepository.findByUserId(userId);
         return optionalMember.orElse(null);
     }
 
