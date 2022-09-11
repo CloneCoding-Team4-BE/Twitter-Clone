@@ -1,6 +1,6 @@
 package com.example.spring_team4_be.entity;
 
-import com.example.spring_team4_be.dto.MemberReqDto;
+import com.example.spring_team4_be.dto.request.MemberReqDto;
 import com.example.spring_team4_be.util.Timestamped;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
