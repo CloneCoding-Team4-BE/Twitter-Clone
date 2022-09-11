@@ -22,10 +22,15 @@ public class Twit extends Timestamped {
     @Column()
     private String content;
     @Column()
-    private Long reTwit;
+    private Long reTwit; // 답글 ID
 
     @Column()
     private String url;
+
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Twit> parentTwit;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "twit", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -33,9 +38,13 @@ public class Twit extends Timestamped {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "twit", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<ReTwit> reTwits;
+    private List<ReTwit> reTwits; // 리트윗 테이블
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Member member;
+
+    public boolean validateMember(Member member) {
+        return !this.member.equals(member);
+    }
 }
