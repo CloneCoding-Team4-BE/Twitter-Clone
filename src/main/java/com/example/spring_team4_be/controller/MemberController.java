@@ -2,10 +2,10 @@ package com.example.spring_team4_be.controller;
 
 
 
-import com.example.spring_team4_be.dto.LoginReqDto;
-import com.example.spring_team4_be.dto.MemberReqDto;
+import com.example.spring_team4_be.dto.request.LoginReqDto;
+import com.example.spring_team4_be.dto.request.MemberReqDto;
 import com.example.spring_team4_be.service.MemberService;
-import com.example.spring_team4_be.dto.ResponseDto;
+import com.example.spring_team4_be.dto.response.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
 package com.example.spring_team4_be.jwt;
 
 
-import com.example.spring_team4_be.dto.ResponseDto;
+import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.dto.TokenDto;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.entity.RefreshToken;
@@ -48,7 +48,7 @@ public class TokenProvider {
 
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
-                .setSubject(member.getUsername())
+                .setSubject(member.getUserId())
                 .claim(AUTHORITIES_KEY, Authority.ROLE_MEMBER.toString())
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
