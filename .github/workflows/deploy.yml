@@ -108,6 +108,64 @@ jobs:
       shell: bash
       env:
         DEV_PROP: ${{ secrets.DB_URL }}
+        
+    - name: make application-S3-BUCKET.properties
+      if: contains(github.ref, 'main')
+      run: |
+        echo "ls -a . & pwd"
+        pwd
+        ls -a .
+        echo "mkdir & touch"
+        mkdir -p ./src/main/resources 
+        cd ./src/main/resources
+        touch ./application-S3-BUCKET.properties
+        pwd
+        ls -a .
+        echo "copy properties"
+        echo $DEV_PROP >> ./application-S3-BUCKET.properties
+        cat application-S3-BUCKET.properties
+      shell: bash
+      env:
+        DEV_PROP: ${{ secrets.S3_BUCKET }}
+        
+    - name: make application-S3-SECRET.properties
+      if: contains(github.ref, 'main')
+      run: |
+        echo "ls -a . & pwd"
+        pwd
+        ls -a .
+        echo "mkdir & touch"
+        mkdir -p ./src/main/resources 
+        cd ./src/main/resources
+        touch ./application-S3-SECRET.properties
+        pwd
+        ls -a .
+        echo "copy properties"
+        echo $DEV_PROP >> ./application-S3-SECRET.properties
+        cat application-S3-SECRET.properties
+      shell: bash
+      env:
+        DEV_PROP: ${{ secrets.S3_SECRET }}
+        
+    - name: make application-S3-ACCESS.properties
+      if: contains(github.ref, 'main')
+      run: |
+        echo "ls -a . & pwd"
+        pwd
+        ls -a .
+        echo "mkdir & touch"
+        mkdir -p ./src/main/resources 
+        cd ./src/main/resources
+        touch ./application-S3-ACCESS.properties
+        pwd
+        ls -a .
+        echo "copy properties"
+        echo $DEV_PROP >> ./application-S3-ACCESS.properties
+        cat application-S3-ACCESS.properties
+      shell: bash
+      env:
+        DEV_PROP: ${{ secrets.S3_ACCESS }}
+        
 
 
     # (4) Gradle build (Test 제외)
