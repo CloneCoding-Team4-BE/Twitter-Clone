@@ -35,4 +35,12 @@ public class TwitController {
         return twitService.readMemberTwit(user_id);
     }
 
+    //트윗 상세 조회
+    @GetMapping("/twit/{twit_id}")
+    public ResponseDto<?> readTwitDetail(@PathVariable Long twit_id, HttpServletRequest request){
+        ResponseDto<?> result = publicMethod.checkLogin(request);
+        if(!result.isSuccess()) return result;
+
+        return twitService.readTwitDetail(twit_id);
+    }
 }
