@@ -7,6 +7,7 @@ import com.example.spring_team4_be.service.TwitService;
 import com.example.spring_team4_be.util.PublicMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -61,10 +62,10 @@ public class TwitController {
     }
 
 
-    //트윗 작성
+    // 트윗 작성
     @PostMapping("/twit")
-    public ResponseDto<?> twitCreate(@RequestBody TwitRequestDto requestDto, HttpServletRequest request){
-        return twitService.twitCreate(requestDto, request);
+    public ResponseDto<?> twitCreate(@RequestPart(required = false) MultipartFile multipartFile, @RequestPart TwitRequestDto requestDto, HttpServletRequest request){
+        return twitService.twitCreate(multipartFile,requestDto, request);
     }
 
     //트윗 삭제

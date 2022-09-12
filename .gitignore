@@ -12,6 +12,7 @@ build/
 /src/main/resources/application-S3-SECRET.properties
 /src/main/resources/application-S3-ACCESS.properties
 
+
 ### STS ###
 .apt_generated
 .classpath
