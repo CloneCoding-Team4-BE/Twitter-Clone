@@ -8,5 +8,7 @@ import java.util.List;
 public interface ReTwitRepository extends JpaRepository<ReTwit,Long> {
     List<ReTwit> findAllByMemberIdAndTwitId(Long member_id, Long twit_id);
 
+    int countAllByTwitId(Long twit_id);
+
 
 }
