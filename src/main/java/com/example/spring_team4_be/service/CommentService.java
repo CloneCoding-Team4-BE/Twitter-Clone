@@ -1,6 +1,7 @@
 package com.example.spring_team4_be.service;
 
 
+
 import com.example.spring_team4_be.dto.request.TwitRequestDto;
 import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.dto.response.TwitResponseDto;
@@ -44,9 +45,9 @@ public class CommentService {
         return ResponseDto.success(
                 TwitResponseDto.builder()
                         .id(twit.getId())
-                        .memberId(twit.getMember().getId())
                         .userProfileImage(member.getImageUrl())
                         .nickname(member.getNickname())
+                        .memberId(member.getId())
                         .userId(member.getUserId())
                         .content(twit.getContent())
                         .fileUrl(twit.getUrl())
