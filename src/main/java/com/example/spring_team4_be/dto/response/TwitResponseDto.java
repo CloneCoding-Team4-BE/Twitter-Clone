@@ -1,4 +1,4 @@
-package com.example.spring_team4_be.dto.reponse;
+package com.example.spring_team4_be.dto.response;
 
 import com.example.spring_team4_be.entity.Twit;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,11 +13,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TwitResponseDto {
-    private Long twitId;
+    private Long id;
     private String userProfileImage;
     private String nickname;
-    private Long userId;
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MMMM dd", timezone = "Asia/Seoul",  locale = "en")
+    private String userId;
+    private Long memberId;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MMM d", timezone = "Asia/Seoul",  locale = "en")
     private LocalDateTime createdAt;
     private String content;
     private String fileUrl;
@@ -25,21 +26,23 @@ public class TwitResponseDto {
     private int retwitCnt;
     private int likeCnt;
 
-    public TwitResponseDto(Long userId, String nickname, String userProfileImage, Long twitId, LocalDateTime createdAt, String content, String fileUrl){
+    public TwitResponseDto(Long memberId, String userId, String nickname, String userProfileImage, Long twitId, LocalDateTime createdAt, String content, String fileUrl){
+        this.memberId = memberId;
         this.userId = userId;
         this.nickname = nickname;
         this.userProfileImage = userProfileImage;
-        this.twitId = twitId;
+        this.id = twitId;
         this.createdAt = createdAt;
         this.content = content;
         this.fileUrl = fileUrl;
     }
 
     public TwitResponseDto(Twit twit, int commentCnt){
-        this.twitId = twit.getId();
+        this.id = twit.getId();
         this.content = twit.getContent();
         this.fileUrl = twit.getUrl();
-        this.userId = twit.getMember().getId();
+        this.memberId = twit.getMember().getId();
+        this.userId = twit.getMember().getUserId();
         this.nickname = twit.getMember().getNickname();
         this.createdAt = twit.getCreatedAt();
         this.userProfileImage = twit.getUrl();

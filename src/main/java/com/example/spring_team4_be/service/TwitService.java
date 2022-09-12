@@ -1,17 +1,19 @@
 package com.example.spring_team4_be.service;
 
+import com.example.spring_team4_be.dto.request.TwitRequestDto;
 import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.dto.response.TwitDetailResponseDto;
 import com.example.spring_team4_be.dto.response.TwitResponseDto;
 import com.example.spring_team4_be.dto.response.TwitSimpleResponseDto;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.entity.Twit;
+import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.repository.TwitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -22,7 +24,8 @@ import java.util.Optional;
 @Service
 public class TwitService {
     private final TwitRepository twitRepository;
-
+    private final TokenProvider tokenProvider;
+    private final HeartService heartService;
     //마이페이지 내 트윗 조회
     @Transactional
     public ResponseDto<?> readMyTwit(Member member){
@@ -85,11 +88,11 @@ public class TwitService {
 
     //TODO: 트윗 상위객체 목록 조회
 
-    public TwitResponseDto twitTotwitResponseDto(Twit twit){
+    public TwitResponseDto twitTotwitResponseDto(Twit twit) {
         int commentCont = twitRepository.findAllByReTwit(twit.getId()).size();
-        return new TwitResponseDto(twit,commentCont);
-    private final TokenProvider tokenProvider;
-    private final HeartService heartService;
+        return new TwitResponseDto(twit, commentCont);
+    }
+
 
     @Transactional
     public ResponseDto<?> allTwit() {
@@ -102,9 +105,10 @@ public class TwitService {
             twits.add(
                     TwitResponseDto.builder()
                             .id(twit.getId())
-                            .userFrofileImage(twit.getMember().getImageUrl())
+                            .userProfileImage(twit.getMember().getImageUrl())
                             .nickname(twit.getMember().getNickname())
-                            .userId(twit.getMember().getUsername())
+                            .userId(twit.getMember().getUserId())
+                            .memberId(twit.getMember().getId())
                             .content(twit.getContent())
                             .fileUrl(twit.getUrl())
                             .createdAt(twit.getCreatedAt())
@@ -141,9 +145,10 @@ public class TwitService {
         return ResponseDto.success(
                 TwitResponseDto.builder()
                         .id(twit.getId())
-                        .userFrofileImage(member.getImageUrl())
+                        .userProfileImage(member.getImageUrl())
                         .nickname(member.getNickname())
-                        .userId(member.getUsername())
+                        .memberId(member.getId())
+                        .userId(member.getUserId())
                         .content(twit.getContent())
                         .fileUrl(twit.getUrl())
                         .createdAt(twit.getCreatedAt())

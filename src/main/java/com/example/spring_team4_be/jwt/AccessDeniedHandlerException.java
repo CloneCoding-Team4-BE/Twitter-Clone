@@ -1,6 +1,6 @@
 package com.example.spring_team4_be.jwt;
 
-import com.example.spring_team4_be.dto.reponse.ResponseDto;
+import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

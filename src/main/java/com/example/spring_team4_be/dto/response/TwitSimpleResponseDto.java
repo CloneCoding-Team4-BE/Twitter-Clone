@@ -1,4 +1,4 @@
-package com.example.spring_team4_be.dto.reponse;
+package com.example.spring_team4_be.dto.response;
 
 import com.example.spring_team4_be.entity.Twit;
 import com.fasterxml.jackson.annotation.JsonFormat;

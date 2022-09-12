@@ -1,13 +1,11 @@
 package com.example.spring_team4_be.controller;
 
 
+import com.example.spring_team4_be.dto.request.TwitRequestDto;
 import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.service.TwitService;
 import com.example.spring_team4_be.util.PublicMethod;
-import com.example.spring_team4_be.dto.ResponseDto;
-import com.example.spring_team4_be.dto.TwitRequestDto;
-import com.example.spring_team4_be.service.TwitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,17 +46,20 @@ public class TwitController {
         return twitService.readTwitDetail(twit_id);
     }
 
+    //트윗 전체조회
     @GetMapping("/twit")
     public ResponseDto<?> allTwit(){
         return twitService.allTwit();
     }
 
 
+    //트윗 작성
     @PostMapping("/twit")
     public ResponseDto<?> twitCreate(@RequestBody TwitRequestDto requestDto, HttpServletRequest request){
         return twitService.twitCreate(requestDto, request);
     }
 
+    //트윗 삭제
     @DeleteMapping("/twit/{twit_id}")
     public ResponseDto<?> twitDelete(@PathVariable Long twit_id, HttpServletRequest request){
         return twitService.twitDelete(twit_id, request);

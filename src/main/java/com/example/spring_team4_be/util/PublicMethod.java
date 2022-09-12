@@ -1,6 +1,6 @@
 package com.example.spring_team4_be.util;
 
-import com.example.spring_team4_be.dto.reponse.ResponseDto;
+import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
