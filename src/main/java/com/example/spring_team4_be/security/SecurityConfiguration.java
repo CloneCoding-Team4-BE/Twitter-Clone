@@ -19,6 +19,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -67,7 +70,7 @@ public class SecurityConfiguration {
     @Bean
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().disable();
+        http.cors().configurationSource(corsConfigurationSource());
         http.csrf().disable()
 
                 .exceptionHandling()
@@ -88,5 +91,28 @@ public class SecurityConfiguration {
                 .apply(new JwtSecurityConfiguration(SECRET_KEY, tokenProvider, userDetailsService));
 
         return http.build();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        //허용할 url 설정
+        configuration.addAllowedOrigin("http://localhost:3000");
+
+        //허용할 헤더 설정
+        configuration.addAllowedHeader("*");
+        //허용할 http method
+        configuration.addAllowedMethod("*");
+        //클라이언트가 접근 할 수 있는 서버 응답 헤더
+        configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("Refresh-Token");
+        //사용자 자격 증명이 지원되는지 여부
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+
     }
 }
