@@ -7,6 +7,7 @@ import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.entity.Twit;
 import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.repository.HeartRepository;
+import com.example.spring_team4_be.repository.ReTwitRepository;
 import com.example.spring_team4_be.repository.TwitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class HeartService {
     private final HeartRepository heartRepository;
     private final TwitRepository twitRepository;
     private final TokenProvider tokenProvider;
+    private final ReTwitRepository reTwitRepository;
 
 
 
@@ -35,6 +37,8 @@ public class HeartService {
 
     @Transactional
     public int commentcnt(Long twit_id){return twitRepository.countAllByReTwit(twit_id);}
+    @Transactional
+    public int reTwitcnt(Long twit_id){return reTwitRepository.countAllByTwitId(twit_id);}
 
     @Transactional
     public ResponseDto<?> likeAndUnlike(HttpServletRequest request, Long twit_id) {
@@ -87,7 +91,7 @@ public class HeartService {
         for(Heart heart : heartList){
             heartResponseDtoList.add(
                     HeartResponseDto.builder()
-                    .userFrofileImage(member.getImageUrl())
+                    .userProfileImage(member.getImageUrl())
                     .nickname(member.getNickname())
                     .userId(member.getUserId())
                     .content(heart.getTwit().getContent())
@@ -95,6 +99,7 @@ public class HeartService {
                     .commentCnt(commentcnt(heart.getTwit().getId()))
                     .createdAt(heart.getTwit().getCreatedAt())
                     .likeCnt(heartcnt(heart.getTwit().getId()))
+                    .reTwitCnt(reTwitcnt(heart.getTwit().getId()))
                     .build()
             );
         }
