@@ -19,7 +19,7 @@ public interface TwitRepository extends JpaRepository<Twit,Long> {
             "TwitSimpleResponseDto(t ,t.createdAt)" +  "FROM Twit t WHERE t.member.id = :id")
     List<TwitSimpleResponseDto> findAllTwit(@Param("id")Long member_id);
 
-    List<Twit> findAllByReTwit(@Param("id")Long twit_id);
+    List<Twit> findAllByReTwit(Long twit_id);
     List<Twit> findAllByOrderByCreatedAtDesc();
 
     int countAllByReTwit(Long Twit_id);
