@@ -57,7 +57,6 @@ public class CommentService {
                 .reTwit(twit_id)
                 .member(member)
                 .build();
-//        twit = new Twit(twit_id, requestDto, imageResponseDto, member);
         twitRepository.save(twit);
 
 
