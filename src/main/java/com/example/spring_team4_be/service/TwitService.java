@@ -1,12 +1,8 @@
 package com.example.spring_team4_be.service;
 
 
-
 import com.example.spring_team4_be.dto.request.TwitRequestDto;
-import com.example.spring_team4_be.dto.response.ResponseDto;
-import com.example.spring_team4_be.dto.response.TwitResponseDto;
-import com.example.spring_team4_be.dto.response.TwitDetailResponseDto;
-import com.example.spring_team4_be.dto.response.TwitSimpleResponseDto;
+import com.example.spring_team4_be.dto.response.*;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.entity.Twit;
 import com.example.spring_team4_be.jwt.TokenProvider;
@@ -16,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -166,19 +162,23 @@ public class TwitService {
             return ResponseDto.fail("MEMBER_NOT_FOUND","로그인이 필요합니다.");
 
 
+        //AWS
         String FileName = null;
-        if (!multipartFile.isEmpty()) {
+        ImageResponseDto imageResponseDto = null;
+        if(multipartFile == null) {
+            imageResponseDto = new ImageResponseDto(FileName);
+        } else {
             try {
                 FileName = s3UploaderService.uploadFile(multipartFile, "image");
-                System.out.println(FileName);
-            } catch (IOException e) {
+                imageResponseDto = new ImageResponseDto(FileName);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         Twit twit = Twit.builder()
                 .content(requestDto.getContent())
-                .url(FileName)
+                .url(imageResponseDto.getImageUrl())
                 .member(member)
                 .build();
         twitRepository.save(twit);

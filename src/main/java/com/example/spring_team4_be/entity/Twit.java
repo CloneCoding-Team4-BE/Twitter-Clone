@@ -1,8 +1,5 @@
 package com.example.spring_team4_be.entity;
 
-import com.example.spring_team4_be.dto.request.MemberReqDto;
-import com.example.spring_team4_be.dto.request.TwitRequestDto;
-import com.example.spring_team4_be.dto.response.ImageResponseDto;
 import com.example.spring_team4_be.util.Timestamped;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -24,16 +21,13 @@ public class Twit extends Timestamped {
     private Long id;
     @Column()
     private String content;
+
     @Column()
     private Long reTwit; // 답글 ID
 
     @Column()
     private String url;
 
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Twit> parentTwit;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "twit", cascade = CascadeType.ALL)
     @JsonIgnore
