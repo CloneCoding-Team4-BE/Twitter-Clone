@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface TwitRepository extends JpaRepository<Twit,Long> {
@@ -20,6 +21,8 @@ public interface TwitRepository extends JpaRepository<Twit,Long> {
     List<TwitSimpleResponseDto> findAllTwit(@Param("id")Long member_id);
 
     List<Twit> findAllByReTwit(Long twit_id);
+
+
     List<Twit> findAllByOrderByCreatedAtDesc();
 
     int countAllByReTwit(Long Twit_id);
