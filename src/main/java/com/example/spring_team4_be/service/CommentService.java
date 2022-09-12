@@ -66,11 +66,12 @@ public class CommentService {
                         .userProfileImage(member.getImageUrl())
                         .nickname(member.getNickname())
                         .userId(member.getUserId())
+                        .memberId(member.getId())
                         .content(twit.getContent())
                         .fileUrl(twit.getUrl())
                         .createdAt(twit.getCreatedAt())
                         .commentCnt(heartService.commentcnt(twit.getId()))
-                        .likeCnt(heartService.commentcnt(twit.getId()))
+                        .likeCnt(heartService.heartcnt(twit.getId()))
                         .build()
         );
     }

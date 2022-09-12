@@ -37,7 +37,7 @@ public class HeartService {
     public int commentcnt(Long twit_id){return twitRepository.countAllByReTwit(twit_id);}
 
     @Transactional
-    public ResponseDto<?> likeAndUnlike(HttpServletRequest request,Long twit_id) {
+    public ResponseDto<?> likeAndUnlike(HttpServletRequest request, Long twit_id) {
         Member member = validateMember(request);
 
         if(request.getHeader("Authorization") == null)
