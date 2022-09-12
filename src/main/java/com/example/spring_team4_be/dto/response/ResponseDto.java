@@ -1,4 +1,5 @@
-package com.example.spring_team4_be.dto;
+
+package com.example.spring_team4_be.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
