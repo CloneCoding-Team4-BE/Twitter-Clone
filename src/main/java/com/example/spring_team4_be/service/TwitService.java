@@ -141,6 +141,7 @@ public class TwitService {
                             .createdAt(twit.getCreatedAt())
                             .commentCnt(heartService.commentcnt(twit.getId()))
                             .likeCnt(heartService.heartcnt(twit.getId()))
+                            .retwitCnt(heartService.reTwitcnt(twit.getId()))
                             .build()
             );
         }
@@ -196,6 +197,7 @@ public class TwitService {
                         .createdAt(twit.getCreatedAt())
                         .commentCnt(heartService.commentcnt(twit.getId()))
                         .likeCnt(heartService.heartcnt(twit.getId()))
+                        .retwitCnt(heartService.reTwitcnt(twit.getId()))
                         .build()
         );
     }
