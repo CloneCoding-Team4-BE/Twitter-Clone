@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 public class TwitResponseDto {
     private Long id;
-    private String userFrofileImage;
+    private Long memberId;
+    private String userProfileImage;
     private String nickname;
     private String userId;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MMM d", timezone = "Asia/Seoul",  locale = "en")
@@ -19,5 +20,6 @@ public class TwitResponseDto {
     private String fileUrl;
     private int commentCnt;
     private int likeCnt;
+    private int reTwitCnt;
 
 }

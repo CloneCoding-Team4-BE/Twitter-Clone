@@ -44,14 +44,15 @@ public class CommentService {
         return ResponseDto.success(
                 TwitResponseDto.builder()
                         .id(twit.getId())
-                        .userFrofileImage(member.getImageUrl())
+                        .memberId(twit.getMember().getId())
+                        .userProfileImage(member.getImageUrl())
                         .nickname(member.getNickname())
                         .userId(member.getUserId())
                         .content(twit.getContent())
                         .fileUrl(twit.getUrl())
                         .createdAt(twit.getCreatedAt())
                         .commentCnt(heartService.commentcnt(twit.getId()))
-                        .likeCnt(heartService.commentcnt(twit.getId()))
+                        .likeCnt(heartService.heartcnt(twit.getId()))
                         .build()
         );
     }
