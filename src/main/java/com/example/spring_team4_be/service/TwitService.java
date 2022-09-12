@@ -11,8 +11,10 @@ import com.example.spring_team4_be.repository.TwitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,7 @@ public class TwitService {
     private final TwitRepository twitRepository;
     private final TokenProvider tokenProvider;
     private final HeartService heartService;
+    private final S3UploaderService s3UploaderService;
 
     @Transactional
     public ResponseDto<?> allTwit() {
@@ -36,14 +39,15 @@ public class TwitService {
             twits.add(
                     TwitResponseDto.builder()
                             .id(twit.getId())
-                            .userFrofileImage(twit.getMember().getImageUrl())
+                            .memberId(twit.getMember().getId())
+                            .userProfileImage(twit.getMember().getImageUrl())
                             .nickname(twit.getMember().getNickname())
                             .userId(twit.getMember().getUserId())
                             .content(twit.getContent())
                             .fileUrl(twit.getUrl())
                             .createdAt(twit.getCreatedAt())
                             .commentCnt(heartService.commentcnt(twit.getId()))
-                            .likeCnt(heartService.commentcnt(twit.getId()))
+                            .likeCnt(heartService.heartcnt(twit.getId()))
                             .build()
             );
         }
@@ -55,7 +59,7 @@ public class TwitService {
 
 
     @Transactional
-    public ResponseDto<?> twitCreate(TwitRequestDto requestDto, HttpServletRequest request) {
+    public ResponseDto<?> twitCreate(MultipartFile multipartFile, TwitRequestDto requestDto, HttpServletRequest request) {
         Member member = validateMember(request);
 
         if(member == null)
@@ -64,9 +68,20 @@ public class TwitService {
         if(request.getHeader("Authorization") == null)
             return ResponseDto.fail("MEMBER_NOT_FOUND","로그인이 필요합니다.");
 
+
+        String FileName = null;
+        if (!multipartFile.isEmpty()) {
+            try {
+                FileName = s3UploaderService.uploadFile(multipartFile, "image");
+                System.out.println(FileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         Twit twit = Twit.builder()
                 .content(requestDto.getContent())
-                .url(requestDto.getUrl())
+                .url(FileName)
                 .member(member)
                 .build();
         twitRepository.save(twit);
@@ -75,14 +90,15 @@ public class TwitService {
         return ResponseDto.success(
                 TwitResponseDto.builder()
                         .id(twit.getId())
-                        .userFrofileImage(member.getImageUrl())
+                        .memberId(twit.getMember().getId())
+                        .userProfileImage(member.getImageUrl())
                         .nickname(member.getNickname())
                         .userId(member.getUserId())
                         .content(twit.getContent())
                         .fileUrl(twit.getUrl())
                         .createdAt(twit.getCreatedAt())
                         .commentCnt(heartService.commentcnt(twit.getId()))
-                        .likeCnt(heartService.commentcnt(twit.getId()))
+                        .likeCnt(heartService.heartcnt(twit.getId()))
                         .build()
         );
     }

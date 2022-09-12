@@ -6,6 +6,7 @@ import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.service.TwitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,8 +25,8 @@ public class TwitController {
 
 
     @PostMapping
-    public ResponseDto<?> twitCreate(@RequestBody TwitRequestDto requestDto, HttpServletRequest request){
-        return twitService.twitCreate(requestDto, request);
+    public ResponseDto<?> twitCreate(@RequestPart(required = false) MultipartFile multipartFile, @RequestPart TwitRequestDto requestDto, HttpServletRequest request){
+        return twitService.twitCreate(multipartFile,requestDto, request);
     }
 
     @DeleteMapping("/{twit_id}")
