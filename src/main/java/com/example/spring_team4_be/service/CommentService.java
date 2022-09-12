@@ -63,7 +63,7 @@ public class CommentService {
         return ResponseDto.success(
                 TwitResponseDto.builder()
                         .id(twit.getId())
-                        .userFrofileImage(member.getImageUrl())
+                        .userProfileImage(member.getImageUrl())
                         .nickname(member.getNickname())
                         .userId(member.getUserId())
                         .content(twit.getContent())

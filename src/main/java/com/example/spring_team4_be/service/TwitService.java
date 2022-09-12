@@ -4,6 +4,7 @@ import com.example.spring_team4_be.dto.request.TwitRequestDto;
 import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.dto.response.TwitDetailResponseDto;
 import com.example.spring_team4_be.dto.response.TwitResponseDto;
+import com.example.spring_team4_be.dto.response.TwitSimpleResponseDto;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.entity.Twit;
 import com.example.spring_team4_be.jwt.TokenProvider;

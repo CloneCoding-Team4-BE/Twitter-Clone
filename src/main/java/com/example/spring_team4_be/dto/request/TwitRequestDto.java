@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public class TwitRequestDto {
     private String content;
-//    private String url;
+    private String url;
 }
