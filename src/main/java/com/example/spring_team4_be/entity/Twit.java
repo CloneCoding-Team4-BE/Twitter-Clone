@@ -43,4 +43,8 @@ public class Twit extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Member member;
+
+    public boolean validateMember(Member member) {
+        return !this.member.equals(member);
+    }
 }

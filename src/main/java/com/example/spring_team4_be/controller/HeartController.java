@@ -14,8 +14,8 @@ public class HeartController {
     private final HeartService heartService;
 
     @GetMapping("/likepage")
-    public ResponseDto<?> getliketwit(HttpServletRequest request){
-        return heartService.getliketwit(request);
+    public ResponseDto<?> getLikeTwit(HttpServletRequest request){
+        return heartService.getLikeTwit(request);
     }
 
     @PostMapping("/twitlike/{twit_id}")

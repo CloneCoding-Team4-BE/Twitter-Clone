@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+
 public interface TwitRepository extends JpaRepository<Twit,Long> {
     @Query("select new com.example.spring_team4_be.dto.reponse." +
             "TwitSimpleResponseDto(t,rt.createdAt)" +
@@ -19,4 +20,7 @@ public interface TwitRepository extends JpaRepository<Twit,Long> {
     List<TwitSimpleResponseDto> findAllTwit(@Param("id")Long member_id);
 
     List<Twit> findAllByReTwit(@Param("id")Long twit_id);
+    List<Twit> findAllByOrderByCreatedAtDesc();
+
+    int countAllByReTwit(Long Twit_id);
 }

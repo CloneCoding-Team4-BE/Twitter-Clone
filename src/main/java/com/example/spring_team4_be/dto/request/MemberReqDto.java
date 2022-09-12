@@ -10,12 +10,11 @@ import java.time.LocalDate;
 @Setter
 public class MemberReqDto {
     @NotBlank
-    private String username;
+    private String userId;
     @NotBlank
     private String nickname;
     @NotBlank
     private String password;
-//    @NotBlank
-
-    private LocalDate dateofbirth;
+    private LocalDate dateOfBirth;
 }
+

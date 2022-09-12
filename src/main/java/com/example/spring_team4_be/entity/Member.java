@@ -1,12 +1,11 @@
 package com.example.spring_team4_be.entity;
 
 import com.example.spring_team4_be.dto.request.MemberReqDto;
+import com.example.spring_team4_be.dto.request.ProfileReqDto;
+import com.example.spring_team4_be.dto.response.ImageResponseDto;
 import com.example.spring_team4_be.util.Timestamped;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -28,21 +27,21 @@ public class Member extends Timestamped {
     private Long id;
 
     @Column(nullable = false)
-    private String username;
+    private String userId;
 
     @Column(nullable = false)
     private String nickname;
 
-    @Column()
+    @Column
     private String imageUrl;
 
-    @Column()
+    @Column
     private String bio;
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private LocalDate dateofbirth;
+    private LocalDate dateOfBirth;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "member", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -66,8 +65,28 @@ public class Member extends Timestamped {
     private List<Follow> followings;
 
     public Member(MemberReqDto memberReqDto){
-        this.username = memberReqDto.getUsername();
+        this.userId = memberReqDto.getUserId();
         this.password = memberReqDto.getPassword();
+    }
+
+
+    public void update(ProfileReqDto profileReqDto, ImageResponseDto imageResponseDto) {
+        if (profileReqDto.getNickname() == null) {
+            this.nickname = nickname;
+        } else {
+            this.nickname = profileReqDto.getNickname();
+        }
+        if (profileReqDto.getBio() == null) {
+            this.bio = bio;
+        } else {
+            this.bio = profileReqDto.getBio();
+        }
+
+        if (imageResponseDto.getImageUrl() == null) {
+            this.imageUrl = imageUrl;
+        } else {
+            this.imageUrl = imageResponseDto.getImageUrl();
+        }
     }
 
     @Override
