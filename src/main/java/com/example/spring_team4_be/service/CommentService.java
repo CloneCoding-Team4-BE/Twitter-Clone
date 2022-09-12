@@ -1,9 +1,9 @@
 package com.example.spring_team4_be.service;
 
 
-import com.example.spring_team4_be.dto.ResponseDto;
-import com.example.spring_team4_be.dto.TwitRequestDto;
-import com.example.spring_team4_be.dto.TwitResponseDto;
+import com.example.spring_team4_be.dto.request.TwitRequestDto;
+import com.example.spring_team4_be.dto.response.ResponseDto;
+import com.example.spring_team4_be.dto.response.TwitResponseDto;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.entity.Twit;
 import com.example.spring_team4_be.repository.TwitRepository;
@@ -46,7 +46,7 @@ public class CommentService {
                         .id(twit.getId())
                         .userFrofileImage(member.getImageUrl())
                         .nickname(member.getNickname())
-                        .userId(member.getUsername())
+                        .userId(member.getUserId())
                         .content(twit.getContent())
                         .fileUrl(twit.getUrl())
                         .createdAt(twit.getCreatedAt())

@@ -1,9 +1,9 @@
 package com.example.spring_team4_be.service;
 
 
-import com.example.spring_team4_be.dto.ResponseDto;
-import com.example.spring_team4_be.dto.TwitRequestDto;
-import com.example.spring_team4_be.dto.TwitResponseDto;
+import com.example.spring_team4_be.dto.request.TwitRequestDto;
+import com.example.spring_team4_be.dto.response.ResponseDto;
+import com.example.spring_team4_be.dto.response.TwitResponseDto;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.entity.Twit;
 import com.example.spring_team4_be.jwt.TokenProvider;
@@ -38,7 +38,7 @@ public class TwitService {
                             .id(twit.getId())
                             .userFrofileImage(twit.getMember().getImageUrl())
                             .nickname(twit.getMember().getNickname())
-                            .userId(twit.getMember().getUsername())
+                            .userId(twit.getMember().getUserId())
                             .content(twit.getContent())
                             .fileUrl(twit.getUrl())
                             .createdAt(twit.getCreatedAt())
@@ -77,7 +77,7 @@ public class TwitService {
                         .id(twit.getId())
                         .userFrofileImage(member.getImageUrl())
                         .nickname(member.getNickname())
-                        .userId(member.getUsername())
+                        .userId(member.getUserId())
                         .content(twit.getContent())
                         .fileUrl(twit.getUrl())
                         .createdAt(twit.getCreatedAt())

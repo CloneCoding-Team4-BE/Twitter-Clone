@@ -1,7 +1,7 @@
 package com.example.spring_team4_be.service;
 
-import com.example.spring_team4_be.dto.HeartResponseDto;
-import com.example.spring_team4_be.dto.ResponseDto;
+import com.example.spring_team4_be.dto.response.HeartResponseDto;
+import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.entity.Heart;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.entity.Twit;
@@ -37,7 +37,7 @@ public class HeartService {
     public int commentcnt(Long twit_id){return twitRepository.countAllByReTwit(twit_id);}
 
     @Transactional
-    public ResponseDto<?> likeAndUnlike(HttpServletRequest request,Long twit_id) {
+    public ResponseDto<?> likeAndUnlike(HttpServletRequest request, Long twit_id) {
         Member member = validateMember(request);
 
         if(request.getHeader("Authorization") == null)
@@ -89,7 +89,7 @@ public class HeartService {
                     HeartResponseDto.builder()
                     .userFrofileImage(member.getImageUrl())
                     .nickname(member.getNickname())
-                    .userId(member.getUsername())
+                    .userId(member.getUserId())
                     .content(heart.getTwit().getContent())
                     .fileUrl(heart.getTwit().getUrl())
                     .commentCnt(commentcnt(heart.getTwit().getId()))
