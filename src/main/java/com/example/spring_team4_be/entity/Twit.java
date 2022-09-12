@@ -1,5 +1,8 @@
 package com.example.spring_team4_be.entity;
 
+import com.example.spring_team4_be.dto.request.MemberReqDto;
+import com.example.spring_team4_be.dto.request.TwitRequestDto;
+import com.example.spring_team4_be.dto.response.ImageResponseDto;
 import com.example.spring_team4_be.util.Timestamped;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -43,6 +46,18 @@ public class Twit extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Member member;
+
+//    public Twit(Long twit_id, TwitRequestDto requestDto, ImageResponseDto imageResponseDto, Member member){
+//        this.content = requestDto.getContent();
+//        this.reTwit = twit_id;
+//        this.member = member;
+//
+//        if (imageResponseDto.getImageUrl() == null) {
+//            this.url = url;
+//        } else {
+//            this.url = imageResponseDto.getImageUrl();
+//        }
+//    }
 
     public boolean validateMember(Member member) {
         return !this.member.equals(member);
