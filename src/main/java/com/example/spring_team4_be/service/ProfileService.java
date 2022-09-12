@@ -88,6 +88,7 @@ public class ProfileService {
                 .userId(member.getUserId())
                 .nickname(member.getNickname())
                 .bio(member.getBio())
+                .createdAt(member.getCreatedAt())
                 .dateOfBirth(member.getDateOfBirth())
                 .build();
 
@@ -110,6 +111,7 @@ public class ProfileService {
                 .userId(member.getUserId())
                 .nickname(member.getNickname())
                 .bio(member.getBio())
+                .createdAt(member.getCreatedAt())
                 .dateOfBirth(member.getDateOfBirth())
                 .build();
 
