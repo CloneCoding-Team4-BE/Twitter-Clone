@@ -35,7 +35,6 @@ jobs:
 
     # (3) properties 생성
     - name: make application-JWT-SECRET.properties
-      if: contains(github.ref, 'main')
       run: |
           echo "ls -a . & pwd"
           pwd
@@ -54,7 +53,6 @@ jobs:
           DEV_PROP: ${{ secrets.JWT_SECRET }}
 
     - name: make application-DB-USERNAME.properties
-      if: contains(github.ref, 'main')
       run: |
         echo "ls -a . & pwd"
         pwd
@@ -72,7 +70,6 @@ jobs:
         DEV_PROP: ${{ secrets.DB_USERNAME }}
 
     - name: make application-DB-PASSWORD.properties
-      if: contains(github.ref, 'main')
       run: |
         echo "ls -a . & pwd"
         pwd
@@ -91,7 +88,6 @@ jobs:
         DEV_PROP: ${{ secrets.DB_PASSWORD }}
 
     - name: make application-DB-URL.properties
-      if: contains(github.ref, 'main')
       run: |
         echo "ls -a . & pwd"
         pwd
@@ -110,7 +106,6 @@ jobs:
         DEV_PROP: ${{ secrets.DB_URL }}
         
     - name: make application-S3-BUCKET.properties
-      if: contains(github.ref, 'main')
       run: |
         echo "ls -a . & pwd"
         pwd
@@ -129,7 +124,6 @@ jobs:
         DEV_PROP: ${{ secrets.S3_BUCKET }}
         
     - name: make application-S3-SECRET.properties
-      if: contains(github.ref, 'main')
       run: |
         echo "ls -a . & pwd"
         pwd
@@ -148,7 +142,6 @@ jobs:
         DEV_PROP: ${{ secrets.S3_SECRET }}
         
     - name: make application-S3-ACCESS.properties
-      if: contains(github.ref, 'main')
       run: |
         echo "ls -a . & pwd"
         pwd
