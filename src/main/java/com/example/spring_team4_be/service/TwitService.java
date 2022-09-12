@@ -23,7 +23,7 @@ import java.util.Optional;
 public class TwitService {
     private final TwitRepository twitRepository;
 
-    //TODO: 마이페이지 내 트윗 조회
+    //마이페이지 내 트윗 조회
     @Transactional
     public ResponseDto<?> readMyTwit(Member member){
         List<TwitSimpleResponseDto> twitList;
@@ -45,7 +45,7 @@ public class TwitService {
     }
 
 
-    //TODO: 다른 사용자 트윗 조회
+    //다른 사용자 트윗 조회
     @Transactional
     public ResponseDto<?> readMemberTwit(Long user_id){
         List<TwitSimpleResponseDto> twitList;
@@ -66,7 +66,7 @@ public class TwitService {
         return ResponseDto.success(twitResponseDtos);
     }
 
-    //TODO: 트윗 상세조회
+    //트윗 상세조회
     @Transactional
     public ResponseDto<?> readTwitDetail(Long twit_id){
         Optional<Twit> twitOptional = twitRepository.findById(twit_id);
@@ -82,6 +82,8 @@ public class TwitService {
             return ResponseDto.success(twitDetailResponseDto);
         }
     }
+
+    //TODO: 트윗 상위객체 목록 조회
 
     public TwitResponseDto twitTotwitResponseDto(Twit twit){
         int commentCont = twitRepository.findAllByReTwit(twit.getId()).size();
