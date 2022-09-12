@@ -76,7 +76,7 @@ public class HeartService {
     }
 
     @Transactional
-    public ResponseDto<?> getLikeTwit(HttpServletRequest request){
+    public ResponseDto<?> getLikeTwit(Long member_id,HttpServletRequest request){
         Member member = validateMember(request);
 
         if(request.getHeader("Authorization") == null)
@@ -86,14 +86,14 @@ public class HeartService {
             return ResponseDto.fail("INVALID_TOKEN","토큰이 유효하지 않습니다");
         }
 
-        List<Heart> heartList = heartRepository.findByMemberId(member.getId());
+        List<Heart> heartList = heartRepository.findByMemberId(member_id);
         List<HeartResponseDto> heartResponseDtoList = new ArrayList<>();
         for(Heart heart : heartList){
             heartResponseDtoList.add(
                     HeartResponseDto.builder()
-                    .userProfileImage(member.getImageUrl())
-                    .nickname(member.getNickname())
-                    .userId(member.getUserId())
+                    .userProfileImage(heart.getMember().getImageUrl())
+                    .nickname(heart.getMember().getNickname())
+                    .userId(heart.getMember().getUserId())
                     .content(heart.getTwit().getContent())
                     .fileUrl(heart.getTwit().getUrl())
                     .commentCnt(commentcnt(heart.getTwit().getId()))
