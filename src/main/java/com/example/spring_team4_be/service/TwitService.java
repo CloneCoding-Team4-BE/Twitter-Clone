@@ -80,7 +80,7 @@ public class TwitService {
     @Transactional
     public ResponseDto<?> readTwitDetail(Long twit_id){
         Optional<Twit> twitOptional = twitRepository.findById(twit_id);
-        if(twitOptional.isEmpty()) return ResponseDto.fail("","");
+        if(twitOptional.isEmpty()) return ResponseDto.fail("NOT_FOUND_TWEET","트윗이 존재하지 않습니다.");
         else {
             Twit twit = twitOptional.get();
             List<Twit> comments = twitRepository.findAllByReTwit(twit.getId());
@@ -93,7 +93,31 @@ public class TwitService {
         }
     }
 
-    //TODO: 트윗 상위객체 목록 조회
+    //트윗 상위객체 목록 조회
+    @Transactional
+    public ResponseDto<?> readParentTwit(Long twit_id){
+        Optional<Twit> twitOptional = twitRepository.findById(twit_id);
+        if(twitOptional.isEmpty()) return ResponseDto.fail("NOT_FOUND_TWEET","트윗이 존재하지 않습니다.");
+        else {
+            List<TwitResponseDto> parentList = new ArrayList<>();
+            Twit twit = twitOptional.get();
+            Long tid = twit.getReTwit();
+            while (tid!=null){
+                Optional<Twit> tempOptional = twitRepository.findById(twit.getReTwit());
+
+                if(tempOptional.isEmpty()) break;
+                else {
+                    Twit temp = tempOptional.get();
+                    parentList.add(twitTotwitResponseDto(temp));
+                    tid = temp.getReTwit();
+                }
+
+            }
+            if(parentList.size()==0) return ResponseDto.fail("NOT_FOUND_PARENT","상위 트윗이 없습니다.");
+            return ResponseDto.success(parentList);
+        }
+    }
+
 
     public TwitResponseDto twitTotwitResponseDto(Twit twit) {
         int commentCont = twitRepository.findAllByReTwit(twit.getId()).size();
