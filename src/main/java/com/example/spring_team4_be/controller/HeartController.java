@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 public class HeartController {
     private final HeartService heartService;
 
-    @GetMapping("/likepage")
-    public ResponseDto<?> getLikeTwit(HttpServletRequest request){
-        return heartService.getLikeTwit(request);
+    @GetMapping("/likepage/{member_id}")
+    public ResponseDto<?> getLikeTwit(@PathVariable Long member_id, HttpServletRequest request){
+        return heartService.getLikeTwit(member_id, request);
     }
 
     @PostMapping("/twitlike/{twit_id}")
