@@ -73,7 +73,7 @@ public class TwitService {
     @Transactional
     public ResponseDto<?> readTwitDetail(Long twit_id){
         Optional<Twit> twitOptional = twitRepository.findById(twit_id);
-        if(twitOptional.isEmpty()) return ResponseDto.fail("","");
+        if(twitOptional.isEmpty()) return ResponseDto.fail("NOT_FOUND_TWEET","트윗이 존재하지 않습니다.");
         else {
             Twit twit = twitOptional.get();
             List<Twit> comments = twitRepository.findAllByReTwit(twit.getId());
