@@ -2,6 +2,7 @@ package com.example.spring_team4_be.controller;
 
 
 
+import com.example.spring_team4_be.dto.request.CheckIdReqDto;
 import com.example.spring_team4_be.dto.request.LoginReqDto;
 import com.example.spring_team4_be.dto.request.MemberReqDto;
 import com.example.spring_team4_be.service.MemberService;
@@ -25,6 +26,11 @@ public class MemberController {
         return memberService.createMember(requestDto);
     }
 
+    @RequestMapping(value = "/member/userid", method = RequestMethod.POST)
+    public ResponseDto<?> checkId(@RequestBody @Valid CheckIdReqDto requestDto,
+                                  HttpServletResponse response) {
+        return memberService.checkId(requestDto, response);
+    }
 
     @RequestMapping(value = "/member/login", method = RequestMethod.POST)
     public ResponseDto<?> login(@RequestBody @Valid LoginReqDto requestDto,
