@@ -8,7 +8,9 @@ build/
 /src/main/resources/application-DB-URL.properties
 /src/main/resources/application-DB-USERNAME.properties
 /src/main/resources/application-DB-PASSWORD.properties
-/src/main/resources/application-BUCKET.properties
+/src/main/resources/application-S3-BUCKET.properties
+/src/main/resources/application-S3-ACCESS.properties
+/src/main/resources/application-S3-SECRET.properties
 
 ### STS ###
 .apt_generated
