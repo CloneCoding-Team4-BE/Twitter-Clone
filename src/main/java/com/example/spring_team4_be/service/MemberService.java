@@ -2,6 +2,7 @@ package com.example.spring_team4_be.service;
 
 
 import com.example.spring_team4_be.dto.*;
+import com.example.spring_team4_be.dto.request.CheckIdReqDto;
 import com.example.spring_team4_be.dto.request.LoginReqDto;
 import com.example.spring_team4_be.dto.request.MemberReqDto;
 import com.example.spring_team4_be.dto.response.MemberResponseDto;
@@ -128,5 +129,14 @@ public class MemberService {
         response.addHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
         response.addHeader("Refresh-Token", tokenDto.getRefreshToken());
         response.addHeader("Access-Token-Expire-Time", tokenDto.getAccessTokenExpiresIn().toString());
+    }
+
+    public ResponseDto<?> checkId(CheckIdReqDto requestDto, HttpServletResponse response) {
+        Member member = isPresentMember(requestDto.getUserId());
+        if (null == member) {
+            return ResponseDto.fail("MEMBER_NOT_FOUND",
+                    "사용자를 찾을 수 없습니다.");
+        }else return ResponseDto.success(requestDto);
+
     }
 }
