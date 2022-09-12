@@ -91,9 +91,9 @@ public class HeartService {
         for(Heart heart : heartList){
             heartResponseDtoList.add(
                     HeartResponseDto.builder()
-                    .userProfileImage(member.getImageUrl())
-                    .nickname(member.getNickname())
-                    .userId(member.getUserId())
+                    .userProfileImage(heart.getMember().getImageUrl())
+                    .nickname(heart.getMember().getNickname())
+                    .userId(heart.getMember().getUserId())
                     .content(heart.getTwit().getContent())
                     .fileUrl(heart.getTwit().getUrl())
                     .commentCnt(commentcnt(heart.getTwit().getId()))
