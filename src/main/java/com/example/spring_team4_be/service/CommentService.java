@@ -50,9 +50,9 @@ public class CommentService {
                 e.printStackTrace();
             }
         }
-
+        String content = requestDto!=null?requestDto.getContent():null;
         Twit twit = Twit.builder()
-                .content(requestDto.getContent())
+                .content(content)
                 .url(imageResponseDto.getImageUrl())
                 .reTwit(twit_id)
                 .member(member)
