@@ -7,6 +7,7 @@ import com.example.spring_team4_be.service.TwitService;
 import com.example.spring_team4_be.util.PublicMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,20 +23,20 @@ public class TwitController {
 
     //프로필 내 트윗 목록  조회
     @GetMapping("/mytwit")
-    public ResponseDto<?> readMyTwit(HttpServletRequest request){
+    public ResponseDto<?> readMyTwit( @PageableDefault(page = 0, size = 10) Pageable pageable,HttpServletRequest request){
         ResponseDto<?> result = publicMethod.checkLogin(request);
         if(!result.isSuccess()) return result;
 
         Member member = (Member)result.getData();
-        return twitService.readMyTwit(member);
+        return twitService.readMyTwit(member,pageable);
     }
 
     //다른 사용자 프로필 트위 목록 조회
     @GetMapping("/mytwit/{user_id}")
-    public ResponseDto<?> readMemberTwit(@PathVariable Long user_id, HttpServletRequest request){
+    public ResponseDto<?> readMemberTwit(@PathVariable Long user_id, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpServletRequest request){
         ResponseDto<?> result = publicMethod.checkLogin(request);
         if(!result.isSuccess()) return result;
-        return twitService.readMemberTwit(user_id);
+        return twitService.readMemberTwit(user_id,pageable);
     }
 
     //트윗 상세 조회
@@ -58,7 +59,7 @@ public class TwitController {
 
     //트윗 전체조회
     @GetMapping("/twit")
-    public ResponseDto<?> allTwit(Pageable pageable){
+    public ResponseDto<?> allTwit( @PageableDefault(page = 0, size = 10) Pageable pageable){
         return twitService.allTwit(pageable);
     }
 
