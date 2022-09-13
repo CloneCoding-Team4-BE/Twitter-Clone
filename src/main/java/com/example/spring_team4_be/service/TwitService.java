@@ -30,10 +30,7 @@ public class TwitService {
     private final TwitRepository twitRepository;
     private final TokenProvider tokenProvider;
     private final HeartService heartService;
-
-    private final S3UploaderService s3UploaderService;
-
-    private final AwsS3Service awsS3Service;
+    private final S3UploaderService awsS3Service;
     //마이페이지 내 트윗 조회
     @Transactional
     public ResponseDto<?> readMyTwit(Member member){
@@ -176,7 +173,6 @@ public class TwitService {
         } else {
             try {
                 FileName = (String) awsS3Service.uploadFile(multipartFile).getData();
-//                FileName = s3UploaderService.uploadFile(multipartFile, "image");
                 imageResponseDto = new ImageResponseDto(FileName);
             } catch (Exception e) {
                 e.printStackTrace();

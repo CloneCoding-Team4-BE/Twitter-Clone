@@ -50,7 +50,7 @@ public class ProfileService {
             imageResponseDto = new ImageResponseDto(defaultImageAddress);
         } else {
             try {
-                profileFileName = s3UploaderService.uploadFile(profileFile, "image");
+                profileFileName = (String) s3UploaderService.uploadFile(profileFile).getData();
                 imageResponseDto = new ImageResponseDto(profileFileName);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -63,7 +63,7 @@ public class ProfileService {
             backImageResponseDto = new BackImageResponseDto(member.getBackgroundImageUrl());
         } else {
             try {
-                backgroundFileName = s3UploaderService.uploadFile(profileFile, "image");
+                backgroundFileName = (String) s3UploaderService.uploadFile(profileFile).getData();
                 backImageResponseDto = new BackImageResponseDto(backgroundFileName);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -44,7 +44,7 @@ public class CommentService {
             imageResponseDto = new ImageResponseDto(FileName);
         } else {
             try {
-                FileName = s3UploaderService.uploadFile(file, "image");
+                FileName = (String) s3UploaderService.uploadFile(file).getData();
                 imageResponseDto = new ImageResponseDto(FileName);
             } catch (Exception e) {
                 e.printStackTrace();
