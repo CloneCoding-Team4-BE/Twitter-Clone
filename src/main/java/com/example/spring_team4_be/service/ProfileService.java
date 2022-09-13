@@ -1,6 +1,5 @@
 package com.example.spring_team4_be.service;
 
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.example.spring_team4_be.dto.request.ProfileReqDto;
 import com.example.spring_team4_be.dto.response.BackImageResponseDto;
 import com.example.spring_team4_be.dto.response.ImageResponseDto;
@@ -29,9 +28,6 @@ public class ProfileService {
     private final S3UploaderService s3UploaderService;
     private final FollowRepository followRepository;
 
-    @Value("${default.image.address}")
-    private String defaultImageAddress;
-
     @Transactional
     public ResponseDto<ProfileResponseDto> updateProfile(ProfileReqDto profileReqDto, MultipartFile profileFile, MultipartFile backgroundFile, HttpServletRequest request) {
         if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
@@ -47,7 +43,7 @@ public class ProfileService {
         String profileFileName = null;
         ImageResponseDto imageResponseDto = null;
         if(profileFile == null) {
-            imageResponseDto = new ImageResponseDto(defaultImageAddress);
+            imageResponseDto = new ImageResponseDto(member.getImageUrl());
         } else {
             try {
                 profileFileName = (String) s3UploaderService.uploadFile(profileFile).getData();
@@ -63,7 +59,7 @@ public class ProfileService {
             backImageResponseDto = new BackImageResponseDto(member.getBackgroundImageUrl());
         } else {
             try {
-                backgroundFileName = (String) s3UploaderService.uploadFile(profileFile).getData();
+                backgroundFileName = (String) s3UploaderService.uploadFile(backgroundFile).getData();
                 backImageResponseDto = new BackImageResponseDto(backgroundFileName);
             } catch (Exception e) {
                 e.printStackTrace();
