@@ -20,7 +20,7 @@ public class AuthenticationEntryPointException implements
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().println(
                 new ObjectMapper().writeValueAsString(
-                        ResponseDto.fail("BAD_REQUEST", "로그인이 필요합니다.")
+                        ResponseDto.fail("BAD_REQUEST", "Token의 기한이 만료되었습니다.")
                 )
         );
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
