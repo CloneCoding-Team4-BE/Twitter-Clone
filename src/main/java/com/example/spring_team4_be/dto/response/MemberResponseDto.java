@@ -17,6 +17,7 @@ public class MemberResponseDto {
     private Long id;
     private String userId;
     private String nickname;
+    private String imageUrl;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MMMM d, yyyy", timezone = "Asia/Seoul",  locale = "en")
     private LocalDate dateOfBirth;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MMMM yyyy", timezone = "Asia/Seoul",  locale = "en")

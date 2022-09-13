@@ -23,7 +23,7 @@ public class S3Controller {
             return ResponseDto.fail("INVALID_FILE","파일이 유효하지 않습니다.");
         }
         try{
-            return ResponseDto.success(new ImageResponseDto(s3Uploader.uploadFile(multipartFile,"image")) );
+            return ResponseDto.success(new ImageResponseDto((String) s3Uploader.uploadFile(multipartFile).getData()) );
         }catch (Exception e){
             e.printStackTrace();
             return ResponseDto.fail("INVALID_FILE","파일이 유효하지 않습니다.");
