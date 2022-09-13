@@ -2,6 +2,7 @@ package com.example.spring_team4_be.repository;
 
 import com.example.spring_team4_be.dto.response.TwitSimpleResponseDto;
 import com.example.spring_team4_be.entity.Twit;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,7 +24,7 @@ public interface TwitRepository extends JpaRepository<Twit,Long> {
     List<Twit> findAllByReTwit(Long twit_id);
 
 
-    List<Twit> findAllByOrderByCreatedAtDesc();
+    List<Twit> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     int countAllByReTwit(Long Twit_id);
 }
