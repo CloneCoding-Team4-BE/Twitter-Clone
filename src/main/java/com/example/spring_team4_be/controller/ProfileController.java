@@ -18,8 +18,8 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @RequestMapping(value = "/member/profile", method = RequestMethod.PUT)
-    public ResponseDto<ProfileResponseDto> updateProfile(@RequestPart ProfileReqDto profileReqDto, @RequestPart(required = false) MultipartFile multipartFile, HttpServletRequest request) {
-        return profileService.updateProfile(profileReqDto, multipartFile, request);
+    public ResponseDto<ProfileResponseDto> updateProfile(@RequestPart ProfileReqDto profileReqDto, @RequestPart(required = false) MultipartFile profileFile, @RequestPart(required = false) MultipartFile backgroundFile, HttpServletRequest request) {
+        return profileService.updateProfile(profileReqDto, profileFile, backgroundFile, request);
     }
 
     @RequestMapping(value = "/member/profile", method = RequestMethod.GET)
