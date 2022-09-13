@@ -47,7 +47,7 @@ public class TwitResponseDto {
         this.userId = twit.getMember().getUserId();
         this.nickname = twit.getMember().getNickname();
         this.createdAt = twit.getCreatedAt();
-        this.userProfileImage = twit.getUrl();
+        this.userProfileImage = twit.getMember().getImageUrl();
         this.retwitCnt = twit.getReTwits().size();
         this.likeCnt = twit.getHearts().size();
         this.commentCnt = commentCnt;
