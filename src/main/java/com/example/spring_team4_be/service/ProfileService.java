@@ -58,7 +58,7 @@ public class ProfileService {
         String backgroundFileName = null;
         BackImageResponseDto backImageResponseDto = null;
         if(backgroundFile == null) {
-            backImageResponseDto = new BackImageResponseDto(backgroundFileName);
+            backImageResponseDto = new BackImageResponseDto(member.getBackgroundImageUrl());
         } else {
             try {
                 backgroundFileName = s3UploaderService.uploadFile(backgroundFile, "image");
