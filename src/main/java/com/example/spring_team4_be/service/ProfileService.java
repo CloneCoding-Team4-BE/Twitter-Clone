@@ -27,9 +27,6 @@ public class ProfileService {
     private final S3UploaderService s3UploaderService;
     private final FollowRepository followRepository;
 
-    @Value("${default.image.address}")
-    private String defaultImageAddress;
-
     @Transactional
     public ResponseDto<ProfileResponseDto> updateProfile(ProfileReqDto profileReqDto, MultipartFile profileFile, MultipartFile backgroundFile, HttpServletRequest request) {
         if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
@@ -45,7 +42,7 @@ public class ProfileService {
         String profileFileName = null;
         ImageResponseDto imageResponseDto = null;
         if(profileFile == null) {
-            imageResponseDto = new ImageResponseDto(defaultImageAddress);
+            imageResponseDto = new ImageResponseDto(member.getImageUrl());
         } else {
             try {
                 profileFileName = s3UploaderService.uploadFile(profileFile, "image");
