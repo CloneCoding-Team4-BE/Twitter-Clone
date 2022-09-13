@@ -44,15 +44,15 @@ public class CommentService {
             imageResponseDto = new ImageResponseDto(FileName);
         } else {
             try {
-                FileName = s3UploaderService.uploadFile(file, "image");
+                FileName = (String) s3UploaderService.uploadFile(file).getData();
                 imageResponseDto = new ImageResponseDto(FileName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
+        String content = requestDto!=null?requestDto.getContent():null;
         Twit twit = Twit.builder()
-                .content(requestDto.getContent())
+                .content(content)
                 .url(imageResponseDto.getImageUrl())
                 .reTwit(twit_id)
                 .member(member)
