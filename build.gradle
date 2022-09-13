@@ -39,6 +39,11 @@ dependencies {
 
 	//AWS
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
+
+	//oauth2
+//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+//	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+//	implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.2'
 }
 
 tasks.named('test') {
