@@ -13,6 +13,7 @@ import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.repository.TwitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -124,9 +125,9 @@ public class TwitService {
 
 
     @Transactional
-    public ResponseDto<?> allTwit() {
+    public ResponseDto<?> allTwit(Pageable pageable) {
 
-        List<Twit> twitList = twitRepository.findAllByOrderByCreatedAtDesc();
+        List<Twit> twitList = twitRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         List<TwitResponseDto> twits = new ArrayList<>();
 

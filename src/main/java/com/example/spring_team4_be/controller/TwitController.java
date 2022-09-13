@@ -6,6 +6,7 @@ import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.service.TwitService;
 import com.example.spring_team4_be.util.PublicMethod;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,8 +58,8 @@ public class TwitController {
 
     //트윗 전체조회
     @GetMapping("/twit")
-    public ResponseDto<?> allTwit(){
-        return twitService.allTwit();
+    public ResponseDto<?> allTwit(Pageable pageable){
+        return twitService.allTwit(pageable);
     }
 
 
