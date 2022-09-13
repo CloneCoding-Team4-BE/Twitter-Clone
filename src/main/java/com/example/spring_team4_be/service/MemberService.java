@@ -11,6 +11,7 @@ import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,9 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
+    @Value("${default.image.address}")
+    private String defaultImageAddress;
+
     @Transactional
     public ResponseDto<?> createMember(MemberReqDto requestDto) {
         if (null != isPresentMember(requestDto.getUserId())) {
@@ -40,6 +44,7 @@ public class MemberService {
         Member member = Member.builder()
                 .userId(requestDto.getUserId())
                 .nickname(requestDto.getNickname())
+                .imageUrl(defaultImageAddress)
                 .password(passwordEncoder.encode(requestDto.getPassword()))
                 .dateOfBirth(requestDto.getDateOfBirth())
                 .build();
@@ -49,6 +54,7 @@ public class MemberService {
                         .id(member.getId())
                         .userId(member.getUserId())
                         .nickname(member.getNickname())
+                        .imageUrl(member.getImageUrl())
                         .dateOfBirth(member.getDateOfBirth())
                         .createdAt(member.getCreatedAt())
                         .build()
