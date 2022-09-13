@@ -178,9 +178,9 @@ public class TwitService {
                 e.printStackTrace();
             }
         }
-
+        String content = requestDto==null? null : requestDto.getContent();
         Twit twit = Twit.builder()
-                .content(requestDto.getContent())
+                .content(content)
                 .url(imageResponseDto.getImageUrl())
                 .member(member)
                 .build();
