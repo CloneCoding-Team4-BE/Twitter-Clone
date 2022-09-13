@@ -42,8 +42,8 @@ public class FollowService {
             }
         }
         Follow follow = Follow.builder()
-                .follower(member)
-                .following(following)
+                .follower(following)
+                .following(member)
                 .build();
         followRepository.save(follow);
         log.info("팔로우 성공");

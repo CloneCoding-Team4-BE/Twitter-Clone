@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class ProfileResponseDto {
 //    @NotBlank
     private String imageUrl;
+    private String backgroundImageUrl;
     @NotBlank
     private String userId;
     @NotBlank
@@ -28,4 +29,8 @@ public class ProfileResponseDto {
     @NotBlank
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MMMM d, yyyy", timezone = "Asia/Seoul",  locale = "en")
     private LocalDate dateOfBirth;
+
+    //팔로워 팔로잉
+    private int followerCnt;
+    private int followingCnt;
 }
