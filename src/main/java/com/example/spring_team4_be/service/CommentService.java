@@ -52,7 +52,7 @@ public class CommentService {
         }
 
         Twit twit = Twit.builder()
-                .content(requestDto.getContent())
+                .content(requestDto.getData())
                 .url(imageResponseDto.getImageUrl())
                 .reTwit(twit_id)
                 .member(member)

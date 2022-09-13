@@ -32,7 +32,6 @@ public class TwitService {
     private final HeartService heartService;
 
     private final S3UploaderService s3UploaderService;
-    private final AwsS3Service awsS3Service;
 
     //마이페이지 내 트윗 조회
     @Transactional
@@ -158,7 +157,7 @@ public class TwitService {
 
 
     @Transactional
-    public ResponseDto<?> twitCreate(TwitRequestDto requestDto, HttpServletRequest request) {
+    public ResponseDto<?> twitCreate(MultipartFile multipartFile, TwitRequestDto requestDto, HttpServletRequest request) {
         Member member = validateMember(request);
 
         if(member == null)
@@ -171,21 +170,19 @@ public class TwitService {
         //AWS
         String FileName = null;
         ImageResponseDto imageResponseDto = null;
-        if(requestDto.getFile() == null) {
+        if(multipartFile == null) {
             imageResponseDto = new ImageResponseDto(FileName);
         } else {
             try {
-                FileName = (String) awsS3Service.uploadFile(requestDto.getFile()).getData();
-//                FileName = s3UploaderService.uploadFile(multipartFile, "image");
+                FileName = s3UploaderService.uploadFile(multipartFile, "image");
                 imageResponseDto = new ImageResponseDto(FileName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        String content = requestDto!=null?requestDto.getContent():null;
         Twit twit = Twit.builder()
-                .content(content)
+                .content(requestDto.getContent())
                 .url(imageResponseDto.getImageUrl())
                 .member(member)
                 .build();
