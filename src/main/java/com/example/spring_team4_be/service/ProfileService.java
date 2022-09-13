@@ -1,6 +1,5 @@
 package com.example.spring_team4_be.service;
 
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.example.spring_team4_be.dto.request.ProfileReqDto;
 import com.example.spring_team4_be.dto.response.BackImageResponseDto;
 import com.example.spring_team4_be.dto.response.ImageResponseDto;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -60,10 +58,10 @@ public class ProfileService {
         String backgroundFileName = null;
         BackImageResponseDto backImageResponseDto = null;
         if(backgroundFile == null) {
-            backImageResponseDto = new BackImageResponseDto(member.getBackgroundImageUrl());
+            backImageResponseDto = new BackImageResponseDto(backgroundFileName);
         } else {
             try {
-                backgroundFileName = s3UploaderService.uploadFile(profileFile, "image");
+                backgroundFileName = s3UploaderService.uploadFile(backgroundFile, "image");
                 backImageResponseDto = new BackImageResponseDto(backgroundFileName);
             } catch (Exception e) {
                 e.printStackTrace();
