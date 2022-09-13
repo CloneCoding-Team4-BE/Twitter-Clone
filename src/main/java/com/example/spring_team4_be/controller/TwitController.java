@@ -64,7 +64,7 @@ public class TwitController {
 
     // 트윗 작성
     @PostMapping("/twit")
-    public ResponseDto<?> twitCreate(@RequestPart(required = false) MultipartFile multipartFile, @RequestPart TwitRequestDto requestDto, HttpServletRequest request){
+    public ResponseDto<?> twitCreate(@RequestPart(required = false) MultipartFile multipartFile, @RequestPart(required = false) TwitRequestDto requestDto, HttpServletRequest request){
         return twitService.twitCreate(multipartFile,requestDto, request);
     }
 
