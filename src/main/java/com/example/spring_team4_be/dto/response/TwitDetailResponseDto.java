@@ -19,7 +19,8 @@ public class TwitDetailResponseDto {
     private Long twitId;
     private String userProfileImage;
     private String nickname;
-    private Long userId;
+    private String userId;
+    private Long memberId;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="hh:mm·MMMM dd, YYYY", timezone = "Asia/Seoul",  locale = "en")
     private LocalDateTime createdAt;
     private String content;
@@ -29,7 +30,8 @@ public class TwitDetailResponseDto {
     private int likeCnt;
     private List<TwitResponseDto> commentList;
 
-    public TwitDetailResponseDto(Long userId, String nickname, String userProfileImage, Long twitId, LocalDateTime createdAt, String content, String fileUrl){
+    public TwitDetailResponseDto(Long memberId,String userId, String nickname, String userProfileImage, Long twitId, LocalDateTime createdAt, String content, String fileUrl){
+        this.memberId = memberId;
         this.userId = userId;
         this.nickname = nickname;
         this.userProfileImage = userProfileImage;
@@ -40,7 +42,8 @@ public class TwitDetailResponseDto {
     }
 
     public TwitDetailResponseDto(Twit twit,List<TwitResponseDto> comments){
-        this.userId = twit.getMember().getId();
+        this.memberId = twit.getMember().getId();
+        this.userId = twit.getMember().getUserId();
         this.nickname = twit.getMember().getNickname();
         this.userProfileImage = twit.getMember().getImageUrl();
         this.twitId = twit.getId();
