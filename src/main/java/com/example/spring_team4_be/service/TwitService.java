@@ -158,7 +158,7 @@ public class TwitService {
 
 
     @Transactional
-    public ResponseDto<?> twitCreate(MultipartFile multipartFile, TwitRequestDto requestDto, HttpServletRequest request) {
+    public ResponseDto<?> twitCreate(TwitRequestDto requestDto, HttpServletRequest request) {
         Member member = validateMember(request);
 
         if(member == null)
@@ -171,11 +171,11 @@ public class TwitService {
         //AWS
         String FileName = null;
         ImageResponseDto imageResponseDto = null;
-        if(multipartFile == null) {
+        if(requestDto.getFile() == null) {
             imageResponseDto = new ImageResponseDto(FileName);
         } else {
             try {
-                FileName = (String) awsS3Service.uploadFile(multipartFile).getData();
+                FileName = (String) awsS3Service.uploadFile(requestDto.getFile()).getData();
 //                FileName = s3UploaderService.uploadFile(multipartFile, "image");
                 imageResponseDto = new ImageResponseDto(FileName);
             } catch (Exception e) {
