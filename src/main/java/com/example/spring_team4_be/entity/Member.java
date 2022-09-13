@@ -2,6 +2,7 @@ package com.example.spring_team4_be.entity;
 
 import com.example.spring_team4_be.dto.request.MemberReqDto;
 import com.example.spring_team4_be.dto.request.ProfileReqDto;
+import com.example.spring_team4_be.dto.response.BackImageResponseDto;
 import com.example.spring_team4_be.dto.response.ImageResponseDto;
 import com.example.spring_team4_be.util.Timestamped;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,6 +35,9 @@ public class Member extends Timestamped {
 
     @Column
     private String imageUrl;
+
+    @Column
+    private String backgroundImageUrl;
 
     @Column
     private String bio;
@@ -70,7 +74,7 @@ public class Member extends Timestamped {
     }
 
 
-    public void update(ProfileReqDto profileReqDto, ImageResponseDto imageResponseDto) {
+    public void update(ProfileReqDto profileReqDto, ImageResponseDto imageResponseDto, BackImageResponseDto backImageResponseDto) {
         if (profileReqDto.getNickname() == null) {
             this.nickname = nickname;
         } else {
@@ -86,6 +90,12 @@ public class Member extends Timestamped {
             this.imageUrl = imageUrl;
         } else {
             this.imageUrl = imageResponseDto.getImageUrl();
+        }
+
+        if (backImageResponseDto.getBackgroundImageUrl() == null) {
+            this.backgroundImageUrl = backgroundImageUrl;
+        } else {
+            this.backgroundImageUrl = backImageResponseDto.getBackgroundImageUrl();
         }
     }
 
