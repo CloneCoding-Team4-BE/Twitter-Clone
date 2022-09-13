@@ -56,6 +56,7 @@ public class TokenProvider {
 
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + REFRESH_TOKEN_EXPRIRE_TIME))
+                .setSubject(member.getUserId())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -74,6 +75,32 @@ public class TokenProvider {
                 .refreshToken(refreshToken)
                 .build();
     }
+
+    public TokenDto generateTokenDto(String token) {
+        Claims claims;
+        try {
+            claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            claims = e.getClaims();
+        }
+
+        long now = (new Date().getTime());
+        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+        String accessToken = Jwts.builder()
+                .setSubject(claims.getSubject())
+                .claim(AUTHORITIES_KEY, Authority.ROLE_MEMBER.toString())
+                .setExpiration(accessTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+
+        return TokenDto.builder()
+                .grantType(BEARER_PREFIX)
+                .accessToken(accessToken)
+                .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
+                .refreshToken(token)
+                .build();
+    }
+
 
 
     public Member getMemberFromAuthentication() {
