@@ -1,9 +1,9 @@
 package com.example.spring_team4_be.security;
 
-import com.example.spring_team4_be.jwt.TokenProvider;
-import com.example.spring_team4_be.service.UserDetailsServiceImpl;
 import com.example.spring_team4_be.jwt.AccessDeniedHandlerException;
 import com.example.spring_team4_be.jwt.AuthenticationEntryPointException;
+import com.example.spring_team4_be.jwt.TokenProvider;
+import com.example.spring_team4_be.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -86,7 +86,6 @@ public class SecurityConfiguration {
                 .antMatchers("/api/member/**").permitAll()
                 .antMatchers("/google/**").permitAll()
                 .anyRequest().authenticated()
-
                 .and()
                 .apply(new JwtSecurityConfiguration(SECRET_KEY, tokenProvider, userDetailsService));
 
