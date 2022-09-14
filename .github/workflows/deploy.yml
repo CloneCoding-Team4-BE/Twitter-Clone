@@ -230,7 +230,7 @@ jobs:
         cat application-GOOGLE_LOGIN_URL.properties
       shell: bash
       env:
-        DEV_PROP: ${{ secrets.GOOLE_LOGIN_URL }}
+        DEV_PROP: ${{ secrets.GOOGLE_LOGIN_URL }}
         
     - name: make application-GOOGLE_REDIRECT_URL.properties
       run: |
@@ -250,7 +250,7 @@ jobs:
       env:
         DEV_PROP: ${{ secrets.GOOGLE_REDIRECT_URL }}
         
-    - name: make application-GOOLE_SECRET.properties
+    - name: make application-GOOGLE_SECRET.properties
       run: |
         echo "ls -a . & pwd"
         pwd
@@ -258,15 +258,15 @@ jobs:
         echo "mkdir & touch"
         mkdir -p ./src/main/resources 
         cd ./src/main/resources
-        touch ./application-GOOLE_SECRET.properties
+        touch ./application-GOOGLE_SECRET.properties
         pwd
         ls -a .
         echo "copy properties"
-        echo $DEV_PROP >> ./application-GOOLE_SECRET.properties
-        cat application-GOOLE_SECRET.properties
+        echo $DEV_PROP >> ./application-GOOGLE_SECRET.properties
+        cat application-GOOGLE_SECRET.properties
       shell: bash
       env:
-        DEV_PROP: ${{ secrets.GOOLE_SECRET }}
+        DEV_PROP: ${{ secrets.GOOGLE_SECRET }}
         
 
 
