@@ -41,7 +41,7 @@ public class TwitResponseDto {
         this.fileUrl = fileUrl;
     }
 
-    public TwitResponseDto(Twit twit, int commentCnt){
+    public TwitResponseDto(Twit twit, int commentCnt, boolean isLike, boolean isRetweet){
         this.id = twit.getId();
         this.content = twit.getContent();
         this.fileUrl = twit.getUrl();
@@ -53,5 +53,7 @@ public class TwitResponseDto {
         this.retwitCnt = twit.getReTwits().size();
         this.likeCnt = twit.getHearts().size();
         this.commentCnt = commentCnt;
+        this.isLike = isLike;
+        this.isRetweet = isRetweet;
     }
 }

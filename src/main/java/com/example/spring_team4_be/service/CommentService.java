@@ -74,8 +74,8 @@ public class CommentService {
                         .commentCnt(heartService.commentcnt(twit.getId()))
                         .likeCnt(heartService.heartcnt(twit.getId()))
                         .retwitCnt(heartService.reTwitcnt(twit.getId()))
-                        .isLike(heartService.isLike(member,twit.getId()))
-                        .isRetweet(heartService.isRetweet(member,twit.getId()))
+                        .isLike(heartService.isLike(member.getId(),twit.getId()))
+                        .isRetweet(heartService.isRetweet(member.getId(),twit.getId()))
                         .build()
         );
     }

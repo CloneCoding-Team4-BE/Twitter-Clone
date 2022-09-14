@@ -53,7 +53,7 @@ public class TwitService {
        int count = 0;
        for(TwitSimpleResponseDto twit:twitList){
            int commentCont = twitRepository.findAllByReTwit(twit.getTwit().getId()).size();
-           twitResponseDtos.add(new TwitResponseDto(twit.getTwit(),commentCont));
+           twitResponseDtos.add(new TwitResponseDto(twit.getTwit(),commentCont, heartService.isLike(member.getId(),twit.getTwit().getId()),heartService.isRetweet(member.getId(),twit.getTwit().getId())));
            if(twitResponseDtos.size()==pageable.getPageSize()){
                if(count==pageable.getPageNumber()){
                    break;
@@ -87,7 +87,7 @@ public class TwitService {
         int count =0;
         for(TwitSimpleResponseDto twit:twitList){
             int commentCont = twitRepository.findAllByReTwit(twit.getTwit().getId()).size();
-            twitResponseDtos.add(new TwitResponseDto(twit.getTwit(),commentCont));
+            twitResponseDtos.add(new TwitResponseDto(twit.getTwit(),commentCont, heartService.isLike(user_id,twit.getTwit().getId()),heartService.isRetweet(user_id,twit.getTwit().getId())));
             if(twitResponseDtos.size()==pageable.getPageSize()){
                 if(count==pageable.getPageNumber()){
                     break;
@@ -146,7 +146,7 @@ public class TwitService {
 
     public TwitResponseDto twitTotwitResponseDto(Twit twit) {
         int commentCont = twitRepository.findAllByReTwit(twit.getId()).size();
-        return new TwitResponseDto(twit, commentCont);
+        return new TwitResponseDto(twit, commentCont, heartService.isLike(twit.getMember().getId(),twit.getId()), heartService.isRetweet(twit.getMember().getId(),twit.getId()));
     }
 
     // 트윗 전체 조회
@@ -171,8 +171,8 @@ public class TwitService {
                             .commentCnt(heartService.commentcnt(twit.getId()))
                             .likeCnt(heartService.heartcnt(twit.getId()))
                             .retwitCnt(heartService.reTwitcnt(twit.getId()))
-                            .isLike(heartService.isLike(userDetails.getMember(),twit.getId()))
-                            .isRetweet(heartService.isRetweet(userDetails.getMember(),twit.getId()))
+                            .isLike(heartService.isLike(userDetails.getMember().getId(),twit.getId()))
+                            .isRetweet(heartService.isRetweet(userDetails.getMember().getId(),twit.getId()))
                             .build()
             );
         }
@@ -230,8 +230,8 @@ public class TwitService {
                         .commentCnt(heartService.commentcnt(twit.getId()))
                         .likeCnt(heartService.heartcnt(twit.getId()))
                         .retwitCnt(heartService.reTwitcnt(twit.getId()))
-                        .isLike(heartService.isLike(member,twit.getId()))
-                        .isRetweet(heartService.isRetweet(member,twit.getId()))
+                        .isLike(heartService.isLike(member.getId(),twit.getId()))
+                        .isRetweet(heartService.isRetweet(member.getId(),twit.getId()))
                         .build()
         );
     }

@@ -96,18 +96,18 @@ public class HeartService {
             heartResponseDtoList.add(
                     HeartResponseDto.builder()
                     .id(heart.getTwit().getId())
-                    .userProfileImage(heart.getMember().getImageUrl())
-                    .nickname(heart.getMember().getNickname())
-                    .userId(heart.getMember().getUserId())
-                    .memberId(heart.getMember().getId())
+                    .userProfileImage(heart.getTwit().getMember().getImageUrl())
+                    .nickname(heart.getTwit().getMember().getNickname())
+                    .userId(heart.getTwit().getMember().getUserId())
+                    .memberId(heart.getTwit().getMember().getId())
                     .content(heart.getTwit().getContent())
                     .fileUrl(heart.getTwit().getUrl())
                     .commentCnt(commentcnt(heart.getTwit().getId()))
                     .createdAt(heart.getTwit().getCreatedAt())
                     .likeCnt(heartcnt(heart.getTwit().getId()))
                     .reTwitCnt(reTwitcnt(heart.getTwit().getId()))
-                    .isLike(isLike(member,heart.getTwit().getId()))
-                    .isRetweet(isRetweet(member,heart.getTwit().getId()))
+                    .isLike(isLike(member.getId(),heart.getTwit().getId()))
+                    .isRetweet(isRetweet(member.getId(),heart.getTwit().getId()))
                     .build()
             );
         }
@@ -118,18 +118,18 @@ public class HeartService {
     }
 
     @Transactional
-    public boolean isLike(Member member,Long twit_id){
+    public boolean isLike(Long member_id,Long twit_id){
         boolean isLike = false;
-        int LikeCnt = heartRepository.countByMemberAndTwitId(member,twit_id);
+        int LikeCnt = heartRepository.countByMemberIdAndTwitId(member_id,twit_id);
         if(LikeCnt == 1)
             isLike = true;
         return isLike;
     }
 
     @Transactional
-    public boolean isRetweet(Member member,Long twit_id){
+    public boolean isRetweet(Long member_id,Long twit_id){
         boolean isRetweet = false;
-        int RetweetCnt = reTwitRepository.countByMemberAndTwitId(member,twit_id);
+        int RetweetCnt = reTwitRepository.countByMemberIdAndTwitId(member_id,twit_id);
         if(RetweetCnt == 1)
             isRetweet = true;
         return isRetweet;
