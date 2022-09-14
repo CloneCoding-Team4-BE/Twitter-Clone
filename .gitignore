@@ -11,7 +11,7 @@ build/
 /src/main/resources/application-S3-BUCKET.properties
 /src/main/resources/application-S3-SECRET.properties
 /src/main/resources/application-S3-ACCESS.properties
-
+/src/main/resources/application-GOOGLE_OAUTH.properties
 
 ### STS ###
 .apt_generated
