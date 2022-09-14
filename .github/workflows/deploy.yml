@@ -160,6 +160,114 @@ jobs:
       env:
         DEV_PROP: ${{ secrets.S3_ACCESS }}
         
+    - name: make application-GOOGLE_AUTH_SCOPE.properties
+      run: |
+        echo "ls -a . & pwd"
+        pwd
+        ls -a .
+        echo "mkdir & touch"
+        mkdir -p ./src/main/resources 
+        cd ./src/main/resources
+        touch ./application-GOOGLE_AUTH_SCOPE.properties
+        pwd
+        ls -a .
+        echo "copy properties"
+        echo $DEV_PROP >> ./application-GOOGLE_AUTH_SCOPE.properties
+        cat application-GOOGLE_AUTH_SCOPE.properties
+      shell: bash
+      env:
+        DEV_PROP: ${{ secrets.GOOGLE_AUTH_SCOPE }}
+        
+    - name: make application-GOOGLE_AUTH_URL.properties
+      run: |
+        echo "ls -a . & pwd"
+        pwd
+        ls -a .
+        echo "mkdir & touch"
+        mkdir -p ./src/main/resources 
+        cd ./src/main/resources
+        touch ./application-GOOGLE_AUTH_URL.properties
+        pwd
+        ls -a .
+        echo "copy properties"
+        echo $DEV_PROP >> ./application-GOOGLE_AUTH_URL.properties
+        cat application-GOOGLE_AUTH_URL.properties
+      shell: bash
+      env:
+        DEV_PROP: ${{ secrets.GOOGLE_AUTH_URL }}
+        
+    - name: make application-GOOGLE_CLIENT_ID.properties
+      run: |
+        echo "ls -a . & pwd"
+        pwd
+        ls -a .
+        echo "mkdir & touch"
+        mkdir -p ./src/main/resources 
+        cd ./src/main/resources
+        touch ./application-GOOGLE_CLIENT_ID.properties
+        pwd
+        ls -a .
+        echo "copy properties"
+        echo $DEV_PROP >> ./application-GOOGLE_CLIENT_ID.properties
+        cat application-GOOGLE_CLIENT_ID.properties
+      shell: bash
+      env:
+        DEV_PROP: ${{ secrets.GOOLE_CLIENT_ID }}
+        
+    - name: make application-GOOGLE_LOGIN_URL.properties
+      run: |
+        echo "ls -a . & pwd"
+        pwd
+        ls -a .
+        echo "mkdir & touch"
+        mkdir -p ./src/main/resources 
+        cd ./src/main/resources
+        touch ./application-GOOGLE_LOGIN_URL.properties
+        pwd
+        ls -a .
+        echo "copy properties"
+        echo $DEV_PROP >> ./application-GOOGLE_LOGIN_URL.properties
+        cat application-GOOGLE_LOGIN_URL.properties
+      shell: bash
+      env:
+        DEV_PROP: ${{ secrets.GOOLE_LOGIN_URL }}
+        
+    - name: make application-GOOGLE_REDIRECT_URL.properties
+      run: |
+        echo "ls -a . & pwd"
+        pwd
+        ls -a .
+        echo "mkdir & touch"
+        mkdir -p ./src/main/resources 
+        cd ./src/main/resources
+        touch ./application-GOOGLE_REDIRECT_URL.properties
+        pwd
+        ls -a .
+        echo "copy properties"
+        echo $DEV_PROP >> ./application-GOOGLE_REDIRECT_URL.properties
+        cat application-GOOGLE_REDIRECT_URI.properties
+      shell: bash
+      env:
+        DEV_PROP: ${{ secrets.GOOGLE_REDIRECT_URL }}
+        
+    - name: make application-GOOLE_SECRET.properties
+      run: |
+        echo "ls -a . & pwd"
+        pwd
+        ls -a .
+        echo "mkdir & touch"
+        mkdir -p ./src/main/resources 
+        cd ./src/main/resources
+        touch ./application-GOOLE_SECRET.properties
+        pwd
+        ls -a .
+        echo "copy properties"
+        echo $DEV_PROP >> ./application-GOOLE_SECRET.properties
+        cat application-GOOLE_SECRET.properties
+      shell: bash
+      env:
+        DEV_PROP: ${{ secrets.GOOLE_SECRET }}
+        
 
 
     # (4) Gradle build (Test 제외)
