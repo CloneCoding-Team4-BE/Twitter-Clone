@@ -84,7 +84,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/member/**").permitAll()
-
+                .antMatchers("/google/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
