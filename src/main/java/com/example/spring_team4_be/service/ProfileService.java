@@ -10,13 +10,11 @@ import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.repository.FollowRepository;
 import com.example.spring_team4_be.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -73,6 +71,7 @@ public class ProfileService {
                 .imageUrl(member.getImageUrl())
                 .backgroundImageUrl(member.getBackgroundImageUrl())
                 .userId(member.getUserId())
+                .memberId(member.getId())
                 .nickname(member.getNickname())
                 .bio(member.getBio())
                 .followerCnt(followRepository.countAllByFollower(member))
@@ -106,6 +105,7 @@ public class ProfileService {
                 .imageUrl(member.getImageUrl())
                 .backgroundImageUrl(member.getBackgroundImageUrl())
                 .userId(member.getUserId())
+                .memberId(member.getId())
                 .nickname(member.getNickname())
                 .bio(member.getBio())
                 .followerCnt(followRepository.countAllByFollower(member))
@@ -132,6 +132,7 @@ public class ProfileService {
                 .imageUrl(member.getImageUrl())
                 .backgroundImageUrl(member.getBackgroundImageUrl())
                 .userId(member.getUserId())
+                .memberId(member.getId())
                 .nickname(member.getNickname())
                 .bio(member.getBio())
                 .followerCnt(followRepository.countAllByFollower(member))
