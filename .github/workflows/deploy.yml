@@ -212,7 +212,7 @@ jobs:
         cat application-GOOGLE_CLIENT_ID.properties
       shell: bash
       env:
-        DEV_PROP: ${{ secrets.GOOLE_CLIENT_ID }}
+        DEV_PROP: ${{ secrets.GOOGLE_CLIENT_ID }}
         
     - name: make application-GOOGLE_LOGIN_URL.properties
       run: |
