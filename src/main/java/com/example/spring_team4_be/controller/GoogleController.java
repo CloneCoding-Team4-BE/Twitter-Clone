@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.http.HttpServletResponse;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -22,7 +24,7 @@ public class GoogleController {
     }
 
     @GetMapping("/login/redirect")
-    public ResponseEntity<GoogleLoginDto> redirectGoogleLogin(@RequestParam(value = "code")String authCode){
-        return googleService.redirectGoogleLogin(authCode);
+    public ResponseEntity<GoogleLoginDto> redirectGoogleLogin(@RequestParam(value = "code")String authCode, HttpServletResponse response){
+        return googleService.redirectGoogleLogin(authCode,response);
     }
 }

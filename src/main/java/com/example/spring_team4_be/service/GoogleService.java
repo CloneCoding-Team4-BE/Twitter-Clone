@@ -1,10 +1,12 @@
 package com.example.spring_team4_be.service;
 
 import com.example.spring_team4_be.dto.GoogleLoginDto;
+import com.example.spring_team4_be.dto.TokenDto;
 import com.example.spring_team4_be.dto.request.GoogleLoginRequestDto;
 import com.example.spring_team4_be.dto.response.GoogleLoginResponseDto;
 import com.example.spring_team4_be.entity.Google;
 import com.example.spring_team4_be.entity.Member;
+import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.repository.GoogleRepository;
 import com.example.spring_team4_be.repository.MemberRepository;
 import com.example.spring_team4_be.util.ConfigUtils;
@@ -18,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
@@ -31,6 +33,9 @@ public class GoogleService {
     private final GoogleRepository googleRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberService memberService;
+    private final TokenProvider tokenProvider;
+
     public ResponseEntity<Object> moveGoogleInitUrl() {
 
 
@@ -48,7 +53,7 @@ public class GoogleService {
         return ResponseEntity.badRequest().build();
     }
 
-    public ResponseEntity<GoogleLoginDto> redirectGoogleLogin(String authCode) {
+    public ResponseEntity<GoogleLoginDto> redirectGoogleLogin(String authCode, HttpServletResponse response) {
         // HTTP 통신을 위해 RestTemplate 활용
         RestTemplate restTemplate = new RestTemplate();
         GoogleLoginRequestDto requestparams = GoogleLoginRequestDto.builder()
@@ -84,10 +89,12 @@ public class GoogleService {
             if(resultJson != null) {
                 GoogleLoginDto userInfoDto = objectMapper.readValue(resultJson, new TypeReference<GoogleLoginDto>() {});
                 Google google = new Google(userInfoDto.getEmail());
+                String[] userEmail = userInfoDto.getEmail().split("@");
+                String userId = userEmail[0];
                 if(googleRepository.findByEmail(google.getEmail()).isEmpty()) {
                     googleRepository.save(google);
                     Member member = Member.builder()
-                            .userId(userInfoDto.getName())
+                            .userId(userId)
                             .nickname(userInfoDto.getName())
                             .imageUrl(userInfoDto.getPicture())
                             .password(passwordEncoder.encode(""))
@@ -95,6 +102,11 @@ public class GoogleService {
                             .build();
                     memberRepository.save(member);
                 }
+
+                Member googlemember = memberService.isPresentMember(userId);
+
+                TokenDto tokenDto = tokenProvider.generateTokenDto(googlemember);
+                memberService.tokenToHeaders(tokenDto, response);
 
                 return ResponseEntity.ok().body(userInfoDto);
             }
