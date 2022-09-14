@@ -53,7 +53,7 @@ public class GoogleService {
         return ResponseEntity.badRequest().build();
     }
 
-    public ResponseEntity<GoogleLoginDto> redirectGoogleLogin(String authCode, HttpServletResponse response) {
+    public String redirectGoogleLogin(String authCode, HttpServletResponse response) {
         // HTTP 통신을 위해 RestTemplate 활용
         RestTemplate restTemplate = new RestTemplate();
         GoogleLoginRequestDto requestparams = GoogleLoginRequestDto.builder()
@@ -108,7 +108,7 @@ public class GoogleService {
                 TokenDto tokenDto = tokenProvider.generateTokenDto(googlemember);
                 memberService.tokenToHeaders(tokenDto, response);
 
-                return ResponseEntity.ok().body(userInfoDto);
+                return "";
             }
             else {
                 throw new Exception("Google OAuth failed!");
@@ -117,6 +117,6 @@ public class GoogleService {
         catch (Exception e){
             e.printStackTrace();
         }
-        return ResponseEntity.badRequest().body(null);
+        return "";
     }
 }
