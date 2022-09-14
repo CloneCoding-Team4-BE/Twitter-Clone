@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class GoogleController {
     }
 
     @GetMapping("/login/redirect")
-    public String redirectGoogleLogin(@RequestParam(value = "code")String authCode, HttpServletResponse response){
+    public void redirectGoogleLogin(@RequestParam(value = "code")String authCode, HttpServletResponse response) throws IOException {
         googleService.redirectGoogleLogin(authCode,response);
-        return "redirect:http://www.naver.com";
+        response.sendRedirect("https://naver.com");
     }
 }
