@@ -1,4 +1,4 @@
-# Twitter Clone
+# Twitter Clone ![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FCloneCoding-Team4-BE%2FTwitter-Clone&count_bg=%235B9EFF&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)
 
 `트위터 클론 코딩 프로젝트`
 
