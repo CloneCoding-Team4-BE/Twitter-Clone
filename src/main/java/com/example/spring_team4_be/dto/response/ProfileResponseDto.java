@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ProfileResponseDto {
+    private Long memberId;
 //    @NotBlank
     private String imageUrl;
     private String backgroundImageUrl;
