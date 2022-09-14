@@ -13,6 +13,7 @@ import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.repository.TwitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,15 +31,16 @@ public class TwitService {
     private final TwitRepository twitRepository;
     private final TokenProvider tokenProvider;
     private final HeartService heartService;
-
-    private final S3UploaderService s3UploaderService;
-
+    private final S3UploaderService awsS3Service;
     //마이페이지 내 트윗 조회
     @Transactional
-    public ResponseDto<?> readMyTwit(Member member){
+    public ResponseDto<?> readMyTwit(Member member, Pageable pageable){
         List<TwitSimpleResponseDto> twitList;
        twitList= twitRepository.findAllTwit(member.getId());
        twitList.addAll(twitRepository.findAllTwitWithReTwit(member.getId()));
+
+       pageable.getPageSize();
+       pageable.getPageNumber();
         twitList.sort(new Comparator<TwitSimpleResponseDto>() {
             @Override
             public int compare(TwitSimpleResponseDto t0, TwitSimpleResponseDto t1) {
@@ -47,17 +49,29 @@ public class TwitService {
         });
        List<TwitResponseDto> twitResponseDtos = new ArrayList<>();
 
+       int count = 0;
        for(TwitSimpleResponseDto twit:twitList){
            int commentCont = twitRepository.findAllByReTwit(twit.getTwit().getId()).size();
            twitResponseDtos.add(new TwitResponseDto(twit.getTwit(),commentCont));
+           if(twitResponseDtos.size()==pageable.getPageSize()){
+               if(count==pageable.getPageNumber()){
+                   break;
+               }else{
+                   count++;
+                   twitResponseDtos.clear();
+               }
+           }
        }
+       if(count!=pageable.getPageNumber()) twitResponseDtos.clear();
+
         return ResponseDto.success(twitResponseDtos);
     }
 
 
+
     //다른 사용자 트윗 조회
     @Transactional
-    public ResponseDto<?> readMemberTwit(Long user_id){
+    public ResponseDto<?> readMemberTwit(Long user_id, Pageable pageable){
         List<TwitSimpleResponseDto> twitList;
         twitList= twitRepository.findAllTwit(user_id);
         twitList.addAll(twitRepository.findAllTwitWithReTwit(user_id));
@@ -69,10 +83,20 @@ public class TwitService {
         });
         List<TwitResponseDto> twitResponseDtos = new ArrayList<>();
 
+        int count =0;
         for(TwitSimpleResponseDto twit:twitList){
             int commentCont = twitRepository.findAllByReTwit(twit.getTwit().getId()).size();
             twitResponseDtos.add(new TwitResponseDto(twit.getTwit(),commentCont));
+            if(twitResponseDtos.size()==pageable.getPageSize()){
+                if(count==pageable.getPageNumber()){
+                    break;
+                }else{
+                    count++;
+                    twitResponseDtos.clear();
+                }
+            }
         }
+        if(count!=pageable.getPageNumber()) twitResponseDtos.clear();
         return ResponseDto.success(twitResponseDtos);
     }
 
@@ -126,9 +150,9 @@ public class TwitService {
 
 
     @Transactional
-    public ResponseDto<?> allTwit() {
+    public ResponseDto<?> allTwit(Pageable pageable) {
 
-        List<Twit> twitList = twitRepository.findAllByOrderByCreatedAtDesc();
+        List<Twit> twitList = twitRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         List<TwitResponseDto> twits = new ArrayList<>();
 
@@ -174,15 +198,15 @@ public class TwitService {
             imageResponseDto = new ImageResponseDto(FileName);
         } else {
             try {
-                FileName = s3UploaderService.uploadFile(multipartFile, "image");
+                FileName = (String) awsS3Service.uploadFile(multipartFile).getData();
                 imageResponseDto = new ImageResponseDto(FileName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
+        String content = requestDto==null? null : requestDto.getContent();
         Twit twit = Twit.builder()
-                .content(requestDto.getContent())
+                .content(content)
                 .url(imageResponseDto.getImageUrl())
                 .member(member)
                 .build();

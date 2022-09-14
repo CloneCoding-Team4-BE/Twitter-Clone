@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class ProfileService {
             imageResponseDto = new ImageResponseDto(member.getImageUrl());
         } else {
             try {
-                profileFileName = s3UploaderService.uploadFile(profileFile, "image");
+                profileFileName = (String) s3UploaderService.uploadFile(profileFile).getData();
                 imageResponseDto = new ImageResponseDto(profileFileName);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -58,7 +59,7 @@ public class ProfileService {
             backImageResponseDto = new BackImageResponseDto(member.getBackgroundImageUrl());
         } else {
             try {
-                backgroundFileName = s3UploaderService.uploadFile(backgroundFile, "image");
+                backgroundFileName = (String) s3UploaderService.uploadFile(backgroundFile).getData();
                 backImageResponseDto = new BackImageResponseDto(backgroundFileName);
             } catch (Exception e) {
                 e.printStackTrace();
