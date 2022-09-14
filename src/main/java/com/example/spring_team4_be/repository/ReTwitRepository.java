@@ -10,5 +10,7 @@ public interface ReTwitRepository extends JpaRepository<ReTwit,Long> {
 
     int countAllByTwitId(Long twit_id);
 
+    int countByMemberIdAndTwitId(Long member_id, Long twit_id);
+
 
 }

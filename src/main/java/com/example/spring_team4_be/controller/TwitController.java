@@ -4,10 +4,12 @@ import com.example.spring_team4_be.dto.request.TwitRequestDto;
 import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.service.TwitService;
+import com.example.spring_team4_be.service.UserDetailsImpl;
 import com.example.spring_team4_be.util.PublicMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,8 +61,8 @@ public class TwitController {
 
     //트윗 전체조회
     @GetMapping("/twit")
-    public ResponseDto<?> allTwit( @PageableDefault(page = 0, size = 10) Pageable pageable){
-        return twitService.allTwit(pageable);
+    public ResponseDto<?> allTwit(@AuthenticationPrincipal UserDetailsImpl userDetails, @PageableDefault(page = 0, size = 10) Pageable pageable){
+        return twitService.allTwit(userDetails,pageable);
     }
 
 

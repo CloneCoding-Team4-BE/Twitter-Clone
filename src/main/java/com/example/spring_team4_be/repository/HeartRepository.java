@@ -9,4 +9,5 @@ public interface HeartRepository extends JpaRepository<Heart,Long> {
     List<Heart> findByMemberIdAndTwitId(Long member_id, Long twit_id);
     List<Heart> findByMemberId(Long member_id);
     int countAllByTwitId(Long twit_id);
+    int countByMemberIdAndTwitId(Long member_id, Long twit_id);
 }

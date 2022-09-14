@@ -68,6 +68,7 @@ public class ProfileService {
         memberRepository.save(member);
 
         ProfileResponseDto profileResponseDto = ProfileResponseDto.builder()
+                .memberId(member.getId())
                 .imageUrl(member.getImageUrl())
                 .backgroundImageUrl(member.getBackgroundImageUrl())
                 .userId(member.getUserId())
@@ -102,6 +103,7 @@ public class ProfileService {
         Member member = isPresentMember(request.getUserPrincipal().getName());
 
         ProfileResponseDto profileResponseDto = ProfileResponseDto.builder()
+                .memberId(member.getId())
                 .imageUrl(member.getImageUrl())
                 .backgroundImageUrl(member.getBackgroundImageUrl())
                 .userId(member.getUserId())
@@ -129,6 +131,7 @@ public class ProfileService {
         }
 
         ProfileResponseDto profileResponseDto = ProfileResponseDto.builder()
+                .memberId(member.getId())
                 .imageUrl(member.getImageUrl())
                 .backgroundImageUrl(member.getBackgroundImageUrl())
                 .userId(member.getUserId())

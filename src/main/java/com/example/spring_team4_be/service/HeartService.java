@@ -29,7 +29,6 @@ public class HeartService {
     private final ReTwitRepository reTwitRepository;
 
 
-
     @Transactional
     public int heartcnt(Long id) {
         return heartRepository.countAllByTwitId(id);
@@ -40,6 +39,8 @@ public class HeartService {
     @Transactional
     public int reTwitcnt(Long twit_id){return reTwitRepository.countAllByTwitId(twit_id);}
 
+
+    // 트윗 좋아요
     @Transactional
     public ResponseDto<?> likeAndUnlike(HttpServletRequest request, Long twit_id) {
         Member member = validateMember(request);
@@ -54,7 +55,6 @@ public class HeartService {
         Twit twit = isPresentTwit(twit_id);
 
         List<Heart> heartList = heartRepository.findByMemberIdAndTwitId(member.getId(), twit_id);
-
 
 
         for(Heart heart : heartList){
@@ -75,6 +75,7 @@ public class HeartService {
 
     }
 
+    // 사용자가 좋아요한 트윗 전체 조회
     @Transactional
     public ResponseDto<?> getLikeTwit(Long member_id,HttpServletRequest request){
         Member member = validateMember(request);
@@ -87,19 +88,26 @@ public class HeartService {
         }
 
         List<Heart> heartList = heartRepository.findByMemberId(member_id);
+
+
         List<HeartResponseDto> heartResponseDtoList = new ArrayList<>();
         for(Heart heart : heartList){
+
             heartResponseDtoList.add(
                     HeartResponseDto.builder()
-                    .userProfileImage(heart.getMember().getImageUrl())
-                    .nickname(heart.getMember().getNickname())
-                    .userId(heart.getMember().getUserId())
+                    .id(heart.getTwit().getId())
+                    .userProfileImage(heart.getTwit().getMember().getImageUrl())
+                    .nickname(heart.getTwit().getMember().getNickname())
+                    .userId(heart.getTwit().getMember().getUserId())
+                    .memberId(heart.getTwit().getMember().getId())
                     .content(heart.getTwit().getContent())
                     .fileUrl(heart.getTwit().getUrl())
                     .commentCnt(commentcnt(heart.getTwit().getId()))
                     .createdAt(heart.getTwit().getCreatedAt())
                     .likeCnt(heartcnt(heart.getTwit().getId()))
                     .reTwitCnt(reTwitcnt(heart.getTwit().getId()))
+                    .isLike(isLike(member.getId(),heart.getTwit().getId()))
+                    .isRetweet(isRetweet(member.getId(),heart.getTwit().getId()))
                     .build()
             );
         }
@@ -107,6 +115,24 @@ public class HeartService {
 
         return ResponseDto.success(heartResponseDtoList);
 
+    }
+
+    @Transactional
+    public boolean isLike(Long member_id,Long twit_id){
+        boolean isLike = false;
+        int LikeCnt = heartRepository.countByMemberIdAndTwitId(member_id,twit_id);
+        if(LikeCnt == 1)
+            isLike = true;
+        return isLike;
+    }
+
+    @Transactional
+    public boolean isRetweet(Long member_id,Long twit_id){
+        boolean isRetweet = false;
+        int RetweetCnt = reTwitRepository.countByMemberIdAndTwitId(member_id,twit_id);
+        if(RetweetCnt == 1)
+            isRetweet = true;
+        return isRetweet;
     }
 
     @Transactional
@@ -122,5 +148,7 @@ public class HeartService {
         Optional<Twit> optionalBook_review = twitRepository.findById(id);
         return optionalBook_review.orElse(null);
     }
+
+
 
 }

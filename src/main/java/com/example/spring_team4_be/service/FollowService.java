@@ -20,7 +20,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final TokenProvider tokenProvider;
 
-
+    // 사용자 팔로우
     @Transactional
     public ResponseDto<?> follow(Member following, HttpServletRequest request){
         Member member = validateMember(request);

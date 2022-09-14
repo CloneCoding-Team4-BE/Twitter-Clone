@@ -20,13 +20,15 @@ public class TwitResponseDto {
     private String nickname;
     private String userId;
     private Long memberId;
-    @JsonFormat(timezone = "Asia/Seoul")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
     private String content;
     private String fileUrl;
     private int commentCnt;
     private int retwitCnt;
     private int likeCnt;
+    private boolean isLike;
+    private boolean isRetweet;
 
     public TwitResponseDto(Long memberId, String userId, String nickname, String userProfileImage, Long twitId, LocalDateTime createdAt, String content, String fileUrl){
         this.memberId = memberId;
@@ -39,7 +41,7 @@ public class TwitResponseDto {
         this.fileUrl = fileUrl;
     }
 
-    public TwitResponseDto(Twit twit, int commentCnt){
+    public TwitResponseDto(Twit twit, int commentCnt, boolean isLike, boolean isRetweet){
         this.id = twit.getId();
         this.content = twit.getContent();
         this.fileUrl = twit.getUrl();
@@ -51,5 +53,7 @@ public class TwitResponseDto {
         this.retwitCnt = twit.getReTwits().size();
         this.likeCnt = twit.getHearts().size();
         this.commentCnt = commentCnt;
+        this.isLike = isLike;
+        this.isRetweet = isRetweet;
     }
 }
