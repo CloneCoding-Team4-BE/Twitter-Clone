@@ -27,6 +27,8 @@ public class TwitResponseDto {
     private int commentCnt;
     private int retwitCnt;
     private int likeCnt;
+    private boolean isLike;
+    private boolean isRetweet;
 
     public TwitResponseDto(Long memberId, String userId, String nickname, String userProfileImage, Long twitId, LocalDateTime createdAt, String content, String fileUrl){
         this.memberId = memberId;

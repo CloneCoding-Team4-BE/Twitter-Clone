@@ -14,6 +14,7 @@ import com.example.spring_team4_be.repository.TwitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -148,9 +149,9 @@ public class TwitService {
         return new TwitResponseDto(twit, commentCont);
     }
 
-
+    // 트윗 전체 조회
     @Transactional
-    public ResponseDto<?> allTwit(Pageable pageable) {
+    public ResponseDto<?> allTwit(@AuthenticationPrincipal UserDetailsImpl userDetails,Pageable pageable) {
 
         List<Twit> twitList = twitRepository.findAllByOrderByCreatedAtDesc(pageable);
 
@@ -170,6 +171,8 @@ public class TwitService {
                             .commentCnt(heartService.commentcnt(twit.getId()))
                             .likeCnt(heartService.heartcnt(twit.getId()))
                             .retwitCnt(heartService.reTwitcnt(twit.getId()))
+                            .isLike(heartService.isLike(userDetails.getMember(),twit.getId()))
+                            .isRetweet(heartService.isRetweet(userDetails.getMember(),twit.getId()))
                             .build()
             );
         }
@@ -180,6 +183,7 @@ public class TwitService {
     }
 
 
+    // 트윗 작성
     @Transactional
     public ResponseDto<?> twitCreate(MultipartFile multipartFile, TwitRequestDto requestDto, HttpServletRequest request) {
         Member member = validateMember(request);
@@ -226,10 +230,13 @@ public class TwitService {
                         .commentCnt(heartService.commentcnt(twit.getId()))
                         .likeCnt(heartService.heartcnt(twit.getId()))
                         .retwitCnt(heartService.reTwitcnt(twit.getId()))
+                        .isLike(heartService.isLike(member,twit.getId()))
+                        .isRetweet(heartService.isRetweet(member,twit.getId()))
                         .build()
         );
     }
 
+    // 트윗 삭제
     @Transactional
     public ResponseDto<?> twitDelete(Long twit_id, HttpServletRequest request) {
         Member member = validateMember(request);

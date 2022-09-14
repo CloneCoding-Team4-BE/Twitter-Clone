@@ -25,7 +25,7 @@ public class ReTwitService {
     private final ReTwitRepository reTwitRepository;
     private final TokenProvider tokenProvider;
 
-
+    // 트윗 리트윗
     @Transactional
     public ResponseDto<?> reTwitAndUnreTwit(Long twit_id, HttpServletRequest request){
         Member member = validateMember(request);

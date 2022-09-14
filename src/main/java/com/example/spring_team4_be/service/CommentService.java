@@ -26,6 +26,7 @@ public class CommentService {
     private final HeartService heartService;
     private final S3UploaderService s3UploaderService;
 
+    // 답글 작성
     @Transactional
     public ResponseDto<?> create(Long twit_id, TwitRequestDto requestDto, MultipartFile file, HttpServletRequest request){
         Member member = reTwitService.validateMember(request);
@@ -73,6 +74,8 @@ public class CommentService {
                         .commentCnt(heartService.commentcnt(twit.getId()))
                         .likeCnt(heartService.heartcnt(twit.getId()))
                         .retwitCnt(heartService.reTwitcnt(twit.getId()))
+                        .isLike(heartService.isLike(member,twit.getId()))
+                        .isRetweet(heartService.isRetweet(member,twit.getId()))
                         .build()
         );
     }
