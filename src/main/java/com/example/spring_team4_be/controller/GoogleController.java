@@ -21,7 +21,7 @@ public class GoogleController {
         return googleService.moveGoogleInitUrl();
     }
 
-    @PostMapping("/login/redirect")
+    @GetMapping("/login/redirect")
     public void redirectGoogleLogin(@RequestParam(value = "code")String authCode, HttpServletResponse response) throws IOException {
         googleService.redirectGoogleLogin(authCode,response);
         response.sendRedirect("http://localhost:3000/oauth");
