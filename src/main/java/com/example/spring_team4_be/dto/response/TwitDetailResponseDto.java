@@ -20,7 +20,7 @@ public class TwitDetailResponseDto {
     private String userProfileImage;
     private String nickname;
     private Long userId;
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="hh:mm·MMMM dd, YYYY", timezone = "Asia/Seoul",  locale = "en")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="hh:mm a ·MMMM dd, YYYY", timezone = "Asia/Seoul",  locale = "en")
     private LocalDateTime createdAt;
     private String content;
     private String fileUrl;

@@ -20,7 +20,7 @@ public class TwitResponseDto {
     private String nickname;
     private String userId;
     private Long memberId;
-    @JsonFormat(timezone = "Asia/Seoul")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
     private String content;
     private String fileUrl;
