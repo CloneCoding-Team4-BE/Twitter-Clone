@@ -26,6 +26,6 @@ public class GoogleController {
     @GetMapping("/login/redirect")
     public String redirectGoogleLogin(@RequestParam(value = "code")String authCode, HttpServletResponse response){
         googleService.redirectGoogleLogin(authCode,response);
-        return "redirect: http://localhost:3000/oauth";
+        return "redirect:http://www.naver.com";
     }
 }
