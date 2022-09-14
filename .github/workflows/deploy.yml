@@ -245,7 +245,7 @@ jobs:
         ls -a .
         echo "copy properties"
         echo $DEV_PROP >> ./application-GOOGLE_REDIRECT_URL.properties
-        cat application-GOOGLE_REDIRECT_URI.properties
+        cat application-GOOGLE_REDIRECT_URL.properties
       shell: bash
       env:
         DEV_PROP: ${{ secrets.GOOGLE_REDIRECT_URL }}
