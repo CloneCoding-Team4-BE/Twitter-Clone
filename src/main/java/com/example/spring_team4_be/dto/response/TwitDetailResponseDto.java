@@ -28,6 +28,9 @@ public class TwitDetailResponseDto {
     private int commentCnt;
     private int retwitCnt;
     private int likeCnt;
+
+    private boolean isLike;
+    private boolean isRetweet;
     private List<TwitResponseDto> commentList;
 
     public TwitDetailResponseDto(Long memberId,String userId, String nickname, String userProfileImage, Long twitId, LocalDateTime createdAt, String content, String fileUrl){
@@ -41,7 +44,7 @@ public class TwitDetailResponseDto {
         this.fileUrl = fileUrl;
     }
 
-    public TwitDetailResponseDto(Twit twit,List<TwitResponseDto> comments){
+    public TwitDetailResponseDto(Twit twit,List<TwitResponseDto> comments, boolean isLike , boolean isRetweet){
         this.memberId = twit.getMember().getId();
         this.userId = twit.getMember().getUserId();
         this.nickname = twit.getMember().getNickname();
@@ -54,5 +57,7 @@ public class TwitDetailResponseDto {
         this.commentCnt = comments.size();
         this.retwitCnt = twit.getReTwits().size();
         this.likeCnt = twit.getHearts().size();
+        this.isLike  = isLike;
+        this.isRetweet  = isRetweet;
     }
 }

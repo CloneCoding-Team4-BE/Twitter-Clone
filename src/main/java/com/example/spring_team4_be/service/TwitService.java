@@ -72,7 +72,7 @@ public class TwitService {
 
     //다른 사용자 트윗 조회
     @Transactional
-    public ResponseDto<?> readMemberTwit(Long user_id, Pageable pageable){
+    public ResponseDto<?> readMemberTwit(Long user_id, Pageable pageable , Long member_id){
         List<TwitSimpleResponseDto> twitList;
         twitList= twitRepository.findAllTwit(user_id);
         twitList.addAll(twitRepository.findAllTwitWithReTwit(user_id));
@@ -87,7 +87,7 @@ public class TwitService {
         int count =0;
         for(TwitSimpleResponseDto twit:twitList){
             int commentCont = twitRepository.findAllByReTwit(twit.getTwit().getId()).size();
-            twitResponseDtos.add(new TwitResponseDto(twit.getTwit(),commentCont, heartService.isLike(user_id,twit.getTwit().getId()),heartService.isRetweet(user_id,twit.getTwit().getId())));
+            twitResponseDtos.add(new TwitResponseDto(twit.getTwit(),commentCont, heartService.isLike(member_id,twit.getTwit().getId()),heartService.isRetweet(member_id,twit.getTwit().getId())));
             if(twitResponseDtos.size()==pageable.getPageSize()){
                 if(count==pageable.getPageNumber()){
                     break;
@@ -103,7 +103,7 @@ public class TwitService {
 
     //트윗 상세조회
     @Transactional
-    public ResponseDto<?> readTwitDetail(Long twit_id){
+    public ResponseDto<?> readTwitDetail(Long twit_id , Long member_id){
         Optional<Twit> twitOptional = twitRepository.findById(twit_id);
         if(twitOptional.isEmpty()) return ResponseDto.fail("NOT_FOUND_TWEET","트윗이 존재하지 않습니다.");
         else {
@@ -113,7 +113,7 @@ public class TwitService {
             for(Twit comment: comments){
                 commentlist.add(twitTotwitResponseDto(comment));
             }
-            TwitDetailResponseDto twitDetailResponseDto = new TwitDetailResponseDto(twit,commentlist);
+            TwitDetailResponseDto twitDetailResponseDto = new TwitDetailResponseDto(twit,commentlist, heartService.isLike(member_id,twit_id),heartService.isRetweet(member_id,twit_id));
             return ResponseDto.success(twitDetailResponseDto);
         }
     }
