@@ -25,8 +25,11 @@ public class GoogleController {
     }
 
     @GetMapping("/login/redirect")
-    public void redirectGoogleLogin(@RequestParam(value = "code")String authCode, HttpServletResponse response) throws IOException {
-        googleService.redirectGoogleLogin(authCode,response);
-        response.sendRedirect("http://localhost:3000/oauth");
+    public void redirectGoogleLogin(@RequestParam(value = "code")String authCode,
+                                    @RequestParam(value = "Authorization") String accessToken,
+                                    @RequestParam(value = "Refresh-token") String refreshToken,
+                                    HttpServletResponse response) throws IOException {
+        googleService.redirectGoogleLogin(authCode,response,accessToken,refreshToken);
+//        response.sendRedirect("http://localhost:3000/oauth?{access}&{refresh}");
     }
 }

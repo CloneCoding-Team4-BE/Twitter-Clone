@@ -56,7 +56,7 @@ public class GoogleService {
         return ResponseEntity.badRequest().build();
     }
 
-    public ResponseDto<GoogleUserResponseDto> redirectGoogleLogin(String authCode, HttpServletResponse response) {
+    public ResponseDto<GoogleUserResponseDto> redirectGoogleLogin(String authCode, HttpServletResponse response,String accessToken, String refreshToken) {
         // HTTP 통신을 위해 RestTemplate 활용
         RestTemplate restTemplate = new RestTemplate();
         GoogleLoginRequestDto requestparams = GoogleLoginRequestDto.builder()
@@ -110,12 +110,12 @@ public class GoogleService {
 
                 TokenDto tokenDto = tokenProvider.generateTokenDto(googlemember);
                 memberService.tokenToHeaders(tokenDto, response);
-                String authorization = response.getHeader("Authorization");
-                String refresh = response.getHeader("Refresh-token");
+                accessToken = response.getHeader("Authorization");
+                refreshToken = response.getHeader("Refresh-token");
 
                 GoogleUserResponseDto googleUserResponseDto = GoogleUserResponseDto.builder()
-                        .accessToken(authorization)
-                        .refreshToken(refresh)
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
                         .build();
 
 //                return ResponseEntity.ok().body(googleUserResponseDto);
