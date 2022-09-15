@@ -1,10 +1,9 @@
 package com.example.spring_team4_be.service;
 
 import com.example.spring_team4_be.dto.request.ProfileReqDto;
-import com.example.spring_team4_be.dto.response.BackImageResponseDto;
-import com.example.spring_team4_be.dto.response.ImageResponseDto;
-import com.example.spring_team4_be.dto.response.ProfileResponseDto;
-import com.example.spring_team4_be.dto.response.ResponseDto;
+import com.example.spring_team4_be.dto.response.*;
+import com.example.spring_team4_be.entity.Follow;
+import com.example.spring_team4_be.entity.Heart;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.jwt.TokenProvider;
 import com.example.spring_team4_be.repository.FollowRepository;
@@ -15,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -130,6 +131,8 @@ public class ProfileService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 사용자입니다.");
         }
 
+        Member memberMe = isPresentMember(request.getUserPrincipal().getName());
+
         ProfileResponseDto profileResponseDto = ProfileResponseDto.builder()
                 .memberId(member.getId())
                 .imageUrl(member.getImageUrl())
@@ -140,6 +143,7 @@ public class ProfileService {
                 .bio(member.getBio())
                 .followerCnt(followRepository.countAllByFollower(member))
                 .followingCnt(followRepository.countAllByFollowing(member))
+                .isFollowing(isFollowing(memberMe,member))
                 .createdAt(member.getCreatedAt())
                 .dateOfBirth(member.getDateOfBirth())
                 .build();
@@ -159,5 +163,14 @@ public class ProfileService {
             return null;
         }
         return tokenProvider.getMemberFromAuthentication();
+    }
+
+    @Transactional
+    public boolean isFollowing(Member follower, Member following){
+        boolean isFollowing = false;
+        int followingCnt = followRepository.countByFollowerAndFollowing(follower, following);
+        if(followingCnt == 1)
+            isFollowing = true;
+        return isFollowing;
     }
 }
