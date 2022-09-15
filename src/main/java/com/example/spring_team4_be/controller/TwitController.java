@@ -38,16 +38,18 @@ public class TwitController {
     public ResponseDto<?> readMemberTwit(@PathVariable Long user_id, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpServletRequest request){
         ResponseDto<?> result = publicMethod.checkLogin(request);
         if(!result.isSuccess()) return result;
-        return twitService.readMemberTwit(user_id,pageable);
+        Member member = (Member)result.getData();
+        return twitService.readMemberTwit(user_id,pageable , member.getId());
     }
 
     //트윗 상세 조회
     @GetMapping("/twit/{twit_id}")
     public ResponseDto<?> readTwitDetail(@PathVariable Long twit_id, HttpServletRequest request){
         ResponseDto<?> result = publicMethod.checkLogin(request);
-        if(!result.isSuccess()) return result;
 
-        return twitService.readTwitDetail(twit_id);
+        if(!result.isSuccess()) return result;
+        Member member = (Member)result.getData();
+        return twitService.readTwitDetail(twit_id , member.getId());
     }
 
     //상위 트윗 목록 조회
