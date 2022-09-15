@@ -60,7 +60,7 @@ public class SecurityConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 // allowedOrigins를 * 로 열면 에러가 발생한다.
-                registry.addMapping("/**").allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://13.125.55.110:8080", "http://13.125.55.110/")
+                registry.addMapping("/**").allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://13.125.55.110:8080", "http://13.125.55.110/", "http://twitter-mini-clone.s3-website.ap-northeast-2.amazonaws.com")
                         .allowCredentials(true)
                         .exposedHeaders("Authorization");
             }
@@ -98,6 +98,7 @@ public class SecurityConfiguration {
 
         //허용할 url 설정
         configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://twitter-mini-clone.s3-website.ap-northeast-2.amazonaws.com");
 
         //허용할 헤더 설정
         configuration.addAllowedHeader("*");
