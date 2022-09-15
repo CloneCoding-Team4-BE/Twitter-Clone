@@ -143,7 +143,7 @@ public class ProfileService {
                 .bio(member.getBio())
                 .followerCnt(followRepository.countAllByFollower(member))
                 .followingCnt(followRepository.countAllByFollowing(member))
-                .isFollowing(isFollowing(memberMe,member))
+                .isFollowing(isFollowing(member,memberMe))
                 .createdAt(member.getCreatedAt())
                 .dateOfBirth(member.getDateOfBirth())
                 .build();
@@ -166,9 +166,10 @@ public class ProfileService {
     }
 
     @Transactional
-    public boolean isFollowing(Member follower, Member following){
+    public boolean isFollowing(Member following, Member follower){
         boolean isFollowing = false;
-        int followingCnt = followRepository.countByFollowerAndFollowing(follower, following);
+        int followingCnt = followRepository.countAllByFollowerAndFollowing(following, follower);
+        System.out.println(followingCnt);
         if(followingCnt == 1)
             isFollowing = true;
         return isFollowing;
