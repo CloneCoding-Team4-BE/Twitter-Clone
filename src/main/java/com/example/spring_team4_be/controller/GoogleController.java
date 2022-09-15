@@ -1,7 +1,5 @@
 package com.example.spring_team4_be.controller;
 
-import com.example.spring_team4_be.dto.response.GoogleUserResponseDto;
-import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.service.GoogleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +25,8 @@ public class GoogleController {
     }
 
     @GetMapping("/login/redirect")
-    public ResponseDto<GoogleUserResponseDto> redirectGoogleLogin(@RequestParam(value = "code")String authCode, HttpServletResponse response) throws IOException {
-//        response.sendRedirect("http://localhost:3000/oauth");
-        return googleService.redirectGoogleLogin(authCode,response);
+    public void redirectGoogleLogin(@RequestParam(value = "code")String authCode, HttpServletResponse response) throws IOException {
+        googleService.redirectGoogleLogin(authCode,response);
+        response.sendRedirect("http://localhost:3000/oauth");
     }
 }
