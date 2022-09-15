@@ -1,5 +1,6 @@
 package com.example.spring_team4_be.service;
 
+import com.example.spring_team4_be.dto.response.ProfileResponseDto;
 import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.entity.Follow;
 import com.example.spring_team4_be.entity.Member;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -18,6 +20,8 @@ import java.util.List;
 @Service
 public class FollowService {
     private final FollowRepository followRepository;
+
+    private final ProfileService profileService;
     private final TokenProvider tokenProvider;
 
     // 사용자 팔로우
@@ -57,5 +61,70 @@ public class FollowService {
             return null;
         }
         return tokenProvider.getMemberFromAuthentication();
+    }
+
+    public ResponseDto<?> getfollowings(Member memberId, HttpServletRequest request) {
+        Member member = validateMember(request);
+
+        if(member == null)
+            return ResponseDto.fail("INVALID_TOKEN","토큰이 유효하지 않습니다.");
+
+        if(request.getHeader("Authorization") == null)
+            return ResponseDto.fail("MEMBER_NOT_FOUND","로그인이 필요합니다.");
+
+        List<Follow> followList = followRepository.findAllByFollowing(memberId);
+
+        List<ProfileResponseDto> results = new ArrayList<>();
+        for(Follow follow:followList){
+            Member result = follow.getFollower();
+            ProfileResponseDto profileResponseDto = ProfileResponseDto.builder()
+                    .memberId(result.getId())
+                    .imageUrl(result.getImageUrl())
+                    .backgroundImageUrl(result.getBackgroundImageUrl())
+                    .userId(result.getUserId())
+                    .memberId(result.getId())
+                    .nickname(result.getNickname())
+                    .bio(result.getBio())
+                    .followerCnt(followRepository.countAllByFollower(result))
+                    .followingCnt(followRepository.countAllByFollowing(result))
+                    .isFollowing(profileService.isFollowing(result, member))
+                    .createdAt(result.getCreatedAt())
+                    .dateOfBirth(result.getDateOfBirth())
+                    .build();
+            results.add(profileResponseDto);
+        }
+        return ResponseDto.success(results);
+    }
+
+    public ResponseDto<?> getfollowers(Member memberId, HttpServletRequest request) {
+        Member member = validateMember(request);
+
+        if(member == null)
+            return ResponseDto.fail("INVALID_TOKEN","토큰이 유효하지 않습니다.");
+
+        if(request.getHeader("Authorization") == null)
+            return ResponseDto.fail("MEMBER_NOT_FOUND","로그인이 필요합니다.");
+
+        List<Follow> followerList = followRepository.findAllByFollower(memberId);
+        List<ProfileResponseDto> results = new ArrayList<>();
+        for(Follow follow:followerList){
+            Member result = follow.getFollowing();
+            ProfileResponseDto profileResponseDto = ProfileResponseDto.builder()
+                    .memberId(result.getId())
+                    .imageUrl(result.getImageUrl())
+                    .backgroundImageUrl(result.getBackgroundImageUrl())
+                    .userId(result.getUserId())
+                    .memberId(result.getId())
+                    .nickname(result.getNickname())
+                    .bio(result.getBio())
+                    .followerCnt(followRepository.countAllByFollower(result))
+                    .followingCnt(followRepository.countAllByFollowing(result))
+                    .isFollowing(profileService.isFollowing(result, member))
+                    .createdAt(result.getCreatedAt())
+                    .dateOfBirth(result.getDateOfBirth())
+                    .build();
+            results.add(profileResponseDto);
+        }
+        return ResponseDto.success(results);
     }
 }
