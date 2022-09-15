@@ -39,7 +39,6 @@ public class SecurityConfiguration {
     private final AuthenticationEntryPointException authenticationEntryPointException;
     private final AccessDeniedHandlerException accessDeniedHandlerException;
 
-//    public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -88,7 +87,6 @@ public class SecurityConfiguration {
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtSecurityConfiguration(SECRET_KEY, tokenProvider, userDetailsService));
-
         return http.build();
     }
 
@@ -97,7 +95,7 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 
         //허용할 url 설정
-        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://localhost:3000 http://twitter-mini-clone.s3-website.ap-northeast-2.amazonaws.com");
 
         //허용할 헤더 설정
         configuration.addAllowedHeader("*");
