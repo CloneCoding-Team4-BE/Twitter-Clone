@@ -22,7 +22,7 @@ public class FollowService {
 
     // 사용자 팔로우
     @Transactional
-    public ResponseDto<?> follow(Member following, HttpServletRequest request){
+    public ResponseDto<?> follow(Member follower, HttpServletRequest request){
         Member member = validateMember(request);
 
         if(member == null)
@@ -32,17 +32,17 @@ public class FollowService {
             return ResponseDto.fail("MEMBER_NOT_FOUND","로그인이 필요합니다.");
 
 
-        List<Follow> followList = followRepository.findAllByFollowerAndFollowing(member,following);
+        List<Follow> followList = followRepository.findAllByFollowingAndFollower(member,follower);
 
         for(Follow follow : followList){
-            if(follow.getFollower().equals(member)){
+            if(follow.getFollowing().equals(member)){
                 followRepository.delete(follow);
                 log.info("팔로우 취소");
                 return ResponseDto.success("팔로우가 취소 되었습니다.");
             }
         }
         Follow follow = Follow.builder()
-                .follower(following)
+                .follower(follower)
                 .following(member)
                 .build();
         followRepository.save(follow);
