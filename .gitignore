@@ -11,7 +11,12 @@ build/
 /src/main/resources/application-S3-BUCKET.properties
 /src/main/resources/application-S3-SECRET.properties
 /src/main/resources/application-S3-ACCESS.properties
-/src/main/resources/application-GOOGLE_OAUTH.properties
+/src/main/resources/application-GOOGLE_AUTH_SCOPE.properties
+/src/main/resources/application-GOOGLE_AUTH_URL.properties
+/src/main/resources/application-GOOGLE_CLIENT_ID.properties
+/src/main/resources/application-GOOGLE_LOGIN_URL.properties
+/src/main/resources/application-GOOGLE_REDIRECT_URL.properties
+/src/main/resources/application-GOOGLE_SECRET.properties
 
 ### STS ###
 .apt_generated

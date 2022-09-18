@@ -34,4 +34,6 @@ public class ProfileResponseDto {
     //팔로워 팔로잉
     private int followerCnt;
     private int followingCnt;
+
+    private boolean isFollowing;
 }

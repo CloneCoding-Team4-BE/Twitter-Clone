@@ -29,6 +29,7 @@ public class ConfigUtils {
     @Value("${google.auth.scope}")
     private String scopes;
 
+
     // Google 로그인 URL 생성
     public String googleInitUrl() {
         Map<String, Object> params = new HashMap<>();
@@ -36,6 +37,7 @@ public class ConfigUtils {
         params.put("redirect_uri", getGoogleRedirectUrl());
         params.put("response_type", "code");
         params.put("scope", getScopeUrl());
+
 
         String paramStr = params.entrySet().stream()
                 .map(param -> param.getKey() + "=" + param.getValue())

@@ -4,6 +4,8 @@ import com.example.spring_team4_be.dto.GoogleLoginDto;
 import com.example.spring_team4_be.dto.TokenDto;
 import com.example.spring_team4_be.dto.request.GoogleLoginRequestDto;
 import com.example.spring_team4_be.dto.response.GoogleLoginResponseDto;
+import com.example.spring_team4_be.dto.response.GoogleUserResponseDto;
+import com.example.spring_team4_be.dto.response.ResponseDto;
 import com.example.spring_team4_be.entity.Google;
 import com.example.spring_team4_be.entity.Member;
 import com.example.spring_team4_be.jwt.TokenProvider;
@@ -20,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,7 +56,7 @@ public class GoogleService {
         return ResponseEntity.badRequest().build();
     }
 
-    public ResponseEntity<GoogleLoginDto> redirectGoogleLogin(String authCode, HttpServletResponse response) {
+    public ResponseDto<GoogleUserResponseDto> redirectGoogleLogin(String authCode, HttpServletResponse response) {
         // HTTP 통신을 위해 RestTemplate 활용
         RestTemplate restTemplate = new RestTemplate();
         GoogleLoginRequestDto requestparams = GoogleLoginRequestDto.builder()
@@ -107,8 +110,17 @@ public class GoogleService {
 
                 TokenDto tokenDto = tokenProvider.generateTokenDto(googlemember);
                 memberService.tokenToHeaders(tokenDto, response);
+                String authorization = response.getHeader("Authorization");
+                String refresh = response.getHeader("Refresh-token");
 
-                return ResponseEntity.ok().body(userInfoDto);
+                GoogleUserResponseDto googleUserResponseDto = GoogleUserResponseDto.builder()
+                        .accessToken(authorization)
+                        .refreshToken(refresh)
+                        .build();
+
+//                return ResponseEntity.ok().body(googleUserResponseDto);
+                return ResponseDto.success(googleUserResponseDto);
+
             }
             else {
                 throw new Exception("Google OAuth failed!");
@@ -117,6 +129,8 @@ public class GoogleService {
         catch (Exception e){
             e.printStackTrace();
         }
-        return ResponseEntity.badRequest().body(null);
+//        return ResponseEntity.badRequest().body(null);
+        return ResponseDto.fail("LOGIN_FAIL","로그인에 실패하였습니다");
     }
+
 }

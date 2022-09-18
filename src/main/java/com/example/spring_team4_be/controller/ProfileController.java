@@ -31,4 +31,7 @@ public class ProfileController {
     public ResponseDto<ProfileResponseDto> getProfile(@PathVariable String userId, HttpServletRequest request) {
         return profileService.getProfile(userId, request);
     }
+
+
+
 }

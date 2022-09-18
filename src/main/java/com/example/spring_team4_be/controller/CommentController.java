@@ -16,7 +16,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/{id}")
-    public ResponseDto<?> CommentCreate(@PathVariable Long id , @RequestPart TwitRequestDto requestDto, @RequestPart(required = false) MultipartFile file, HttpServletRequest request){
-        return commentService.create(id,requestDto,file,request);
+    public ResponseDto<?> CommentCreate(@PathVariable Long id , @RequestPart TwitRequestDto requestDto, @RequestPart(required = false) MultipartFile multipartFile, HttpServletRequest request){
+        return commentService.create(id,requestDto,multipartFile,request);
     }
 }
