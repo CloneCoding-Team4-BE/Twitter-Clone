@@ -52,7 +52,8 @@
 ## 🏰 아키텍쳐
 <details>
 <summary> <b>아키텍쳐 바로보기</b> </summary>
-    <img src=""> 
+    <img src="https://user-images.githubusercontent.com/48474929/190893219-d67165e1-a235-47c7-8387-42131e6f53b4.png">
+
 </details>
 
 <br />
