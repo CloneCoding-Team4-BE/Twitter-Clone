@@ -2,11 +2,15 @@
 
 `트위터 클론 코딩 프로젝트`
 
-<img src="https://user-images.githubusercontent.com/48474929/190206905-a3a2743b-8395-4c63-ae98-81e2f1f3b06e.png" width="2%"> **[서비스 바로 가기]()**
+<img src="https://user-images.githubusercontent.com/48474929/190206905-a3a2743b-8395-4c63-ae98-81e2f1f3b06e.png" width="2%"> **[서비스 바로 가기](http://twitter-mini-clone.s3-website.ap-northeast-2.amazonaws.com/first)**
 
 🎬 **[서비스 시연 및 발표 영상]()**
 
 👩 **[팀 노션](https://www.notion.so/4-999f2666140f4b93b1a3ade0eafbe1d1)**
+
+📝 **[API 명세서](https://www.notion.so/d1761736f19246b88c50990a33d7dfe0)**
+
+🤩 **[ForntEnd repo](https://github.com/kwakhyun/twitter-clone-FE)**
 
 
 <br />
