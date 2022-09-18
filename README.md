@@ -61,7 +61,8 @@
     
 <details>
 <summary> <b>ERD 바로보기</b> </summary>
-    <img src=""> 
+    <img src="https://user-images.githubusercontent.com/48474929/190892944-2cb1ef3d-517c-4671-a6d8-08f286accbf3.png">
+
 </details>
 
 
